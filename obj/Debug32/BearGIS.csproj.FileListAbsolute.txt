@@ -1,0 +1,6 @@
+D:\_11_Git\BearGIS_Solution\BearGIS\bin\BearGIS.dll
+D:\_11_Git\BearGIS_Solution\BearGIS\bin\BearGIS.pdb
+D:\_11_Git\BearGIS_Solution\BearGIS\bin\Newtonsoft.Json.dll
+D:\_11_Git\BearGIS_Solution\BearGIS\bin\Newtonsoft.Json.xml
+D:\_11_Git\BearGIS_Solution\BearGIS\obj\Debug32\BearGIS.dll
+D:\_11_Git\BearGIS_Solution\BearGIS\obj\Debug32\BearGIS.pdb
