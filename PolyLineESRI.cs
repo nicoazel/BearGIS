@@ -57,7 +57,8 @@ namespace BearGIS
             // All parameters must have the correct access type. If you want 
             // to import lists or trees of values, modify the ParamAccess flag.
             //pManager.AddPointParameter("linePoints", "lP", "points that compose the polyline organized in a tree", GH_ParamAccess.tree);
-            pManager.AddCurveParameter("polyline", "pl", "points that compose the polyline organized in a tree", GH_ParamAccess.tree);
+            pManager.AddGeometryParameter("polyline", "pl", "points that compose the polyline organized in a tree", GH_ParamAccess.tree);
+            //pManager.AddCurveParameter("polyline", "pl", "points that compose the polyline organized in a tree", GH_ParamAccess.tree);
             pManager.AddTextParameter("fields", "f", "list of Fields for each geometry. This should not be a datatree but a simple list", GH_ParamAccess.list);
             pManager.AddGenericParameter("attributes", "a", "attributes for each geometry. this should be a dataTree matching the linePoints input, and fields indicies", GH_ParamAccess.tree);
         }
@@ -93,9 +94,8 @@ namespace BearGIS
             //Plane plane = Plane.WorldXY;
             //int turns = 0;
             //GH_Structure<Polyline> shapes = new GH_Structure<Polyline>();
-            GH_Structure<GH_Curve
-                
-                > shapes = new GH_Structure<GH_Curve>();
+            //GH_Structure<GH_Curve> shapes = new GH_Structure<GH_Curve>();
+            GH_Structure<IGH_GeometricGoo> shapes = new GH_Structure<IGH_GeometricGoo>();
             List<string> fields = new List<string>();
             GH_Structure<IGH_Goo > attributes = new GH_Structure<IGH_Goo>();
             //GH_Structure<IGH_Goo> attributes = new GH_Structure<IGH_Goo>();
@@ -222,7 +222,8 @@ namespace BearGIS
                 List<Object> allPaths = new List<Object>();
 
                 // go through each curve in the branch
-                foreach (GH_Curve shape in branch)
+                //foreach (GH_Curve shape in branch)
+                foreach (IGH_GeometricGoo shape in branch)
                 {
 
                     NurbsCurve curveshape;
