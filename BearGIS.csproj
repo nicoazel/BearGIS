@@ -66,8 +66,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyComponent1.cs" />
-    <Compile Include="MyComponent2.cs" />
     <Compile Include="PolyLineESRI.cs" />
     <Compile Include="BearGISInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
