@@ -4,10 +4,12 @@ D:\_11_Git\BearGIS_Solution\BearGIS\bin\Newtonsoft.Json.dll
 D:\_11_Git\BearGIS_Solution\BearGIS\bin\Newtonsoft.Json.xml
 D:\_11_Git\BearGIS_Solution\BearGIS\obj\Debug32\BearGIS.dll
 D:\_11_Git\BearGIS_Solution\BearGIS\obj\Debug32\BearGIS.pdb
-D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.csprojResolveAssemblyReference.cache
 D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.dll
 D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.pdb
 D:\_11_Git\BearGIS\BearGIS\bin\BearGIS.dll
 D:\_11_Git\BearGIS\BearGIS\bin\BearGIS.pdb
 D:\_11_Git\BearGIS\BearGIS\bin\Newtonsoft.Json.dll
 D:\_11_Git\BearGIS\BearGIS\bin\Newtonsoft.Json.xml
+D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.csprojAssemblyReference.cache
+D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.csproj.CoreCompileInputs.cache
+D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.csproj.CopyComplete
