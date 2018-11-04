@@ -11,14 +11,30 @@ This is currently a work in progress.
 
 ### Export
 
-#### - [x] Polyline to ESRI
+#### [x] Polyline to ESRI
 this component converts Grasshopper Polylines to ESRI GeoJSON
 
-#### - [ ] Polyline to GeoJSON
+#### [ ] Polyline to GeoJSON
 this component converts Grasshopper Polylines to ESRI GeoJSON
+
+#### [ ] Polygon to ESRI
+this component converts Grasshopper Polygons to ESRI GeoJSON
+
+#### [ ] Polylgon to GeoJSON
+this component converts Grasshopper Polygons to ESRI GeoJSON
+
+#### [ ] Point to ESRI
+this component converts Grasshopper Pooint to ESRI GeoJSON
+
+#### [ ] Point to GeoJSON
+this component converts Grasshopper Point to ESRI GeoJSON
 
 ### import
 
-#### -[x] Import ESRI GeoJSON
+#### [x] Import ESRI GeoJSON
+this component imports a ESRI formatted GeoJSON with its fields and attributes
+Multi-Part geometry is handeled with sub branches eg. Branches {A:A} & {A:B} are each part of Feature "A" and would correspond to attributes on branch {A} 
+
+#### [ ] Import GeoJSON
 this component imports a ESRI formatted GeoJSON with its fields and attributes
 Multi-Part geometry is handeled with sub branches eg. Branches {A:A} & {A:B} are each part of Feature "A" and would correspond to attributes on branch {A} 
