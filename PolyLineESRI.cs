@@ -56,9 +56,9 @@ namespace BearGIS
             // You can often supply default values when creating parameters.
             pManager.AddCurveParameter("polylineTree", "plTree", "points that compose the polyline organized in a tree", GH_ParamAccess.tree);
             pManager.AddTextParameter("fields", "f", "list of Fields for each geometry. This should not be a datatree but a simple list", GH_ParamAccess.list);
-            pManager.AddGenericParameter("attributes", "a", "attributes for each geometry. this should be a dataTree matching the linePoints input, and fields indicies", GH_ParamAccess.tree);
-            pManager.AddTextParameter("filePath", "fp", "File Path for new geojson file", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("writeFIle", "w", "set to true to write to file", GH_ParamAccess.item);
+            pManager.AddGenericParameter("attributes", "attr", "attributes for each geometry. this should be a dataTree matching the linePoints input, and fields indicies", GH_ParamAccess.tree);
+            pManager.AddTextParameter("filePath", "fp", "File Path for new geojson file, sugestion: use '.json'", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("writeFile", "w", "set to true to write to file", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -68,8 +68,7 @@ namespace BearGIS
         {
             // Use the pManager object to register your output parameters.
             // You can use the HideParameter() method as a quick way: pManager.HideParameter(0);
-            pManager.AddTextParameter("geoJSON", "gJSON", "compact geoJson discription of the geometry and data. this can be written to a json file with the WriteGeojson Component", GH_ParamAccess.item);
-            pManager.AddTextParameter("readable", "rj", "readable geoJson with indents, for human legablity and review of results", GH_ParamAccess.item);
+            pManager.AddTextParameter("geojson", "json", "readable geoJson with indents, for human legablity and review of results", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -304,7 +303,7 @@ namespace BearGIS
                 //@"D:\path.txt"
                 System.IO.File.WriteAllText(@filePath, json);
             }
-            DA.SetData(1, json);
+            DA.SetData(0, json);
         }
 
         /// <summary>

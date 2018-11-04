@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ReadGeoJson.cs" />
     <Compile Include="PolyLineESRI.cs" />
     <Compile Include="BearGISInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
