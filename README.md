@@ -5,7 +5,8 @@ BearGIS is a Grasshopper plugin written in C#
 
 ## Primary Functionality
 The goal of BearGIS is to develop a plugin that allows fluid exchange of GIS data into and out of grasshopper. 
-This is currently a work in progress. 
+
+This is currently a work in progress. Checked components are integrated into master and functioning at some level. There may still be errors in some use cases. Any unchecked component is eather planed but not implmented or still in a Dev Branch. 
 
 ## BearGIS Components List
 
@@ -15,7 +16,7 @@ This tab is for components that export geometry with attributes to GeoJson forma
 #### Polyline to ESRI
 - [x] this component converts Grasshopper Polylines to ESRI GeoJSON
 #### Polyline to GeoJSON
- - [ ] this component converts Grasshopper Polylines to ESRI GeoJSON
+- [ ] this component converts Grasshopper Polylines to ESRI GeoJSON
 #### Polygon to ESRI
 - [ ] this component converts Grasshopper Polygons to ESRI GeoJSON
 #### Polylgon to GeoJSON
