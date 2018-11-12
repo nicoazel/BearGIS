@@ -1,20 +1,31 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
+using GH_IO;
+using GH_IO.Serialization;
+using Grasshopper;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Types;
+
 using Rhino.Geometry;
+
+using DotSpatial.Projections;
 
 namespace BearGIS
 {
-    public class MyComponent1 : GH_Component
+    public class LongLatPt : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public MyComponent1()
-          : base("MyComponent1", "Nickname",
-              "Description",
-              "Category", "Subcategory")
+        public LongLatPt()
+          : base("LongLatPt", "LL-XY",
+              "This component provides the xy location of a given Lat Long coordinates and .Proj file of source coordinates",
+              "BearGIS", "projection")
         {
         }
 
@@ -23,6 +34,9 @@ namespace BearGIS
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            pManager.AddNumberParameter("Longatude", "Long", "Longatude of desired xy point", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Latatude", "Lat", "Latatude of desired xy point", GH_ParamAccess.item);
+            pManager.AddTextParameter("PrjfilePath", "prj", "File Path of the.Proj File representing the source coordinate system", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -30,6 +44,7 @@ namespace BearGIS
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            pManager.AddPointParameter("point", "pt", "Point Coordinate of given longatude latatude", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -38,6 +53,16 @@ namespace BearGIS
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            double lng = 0;
+            double lat = 0;
+            string fp = "";
+
+            if (!DA.GetData(0, ref lng)) return;
+            if (!DA.GetData(1, ref lat)) return;
+            if (!DA.GetData(2, ref fp)) return;
+
+
+            //lets say WGS84 is always source of lat long
         }
 
         /// <summary>
