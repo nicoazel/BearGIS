@@ -43,5 +43,5 @@ Multi-Part geometry is handeled with sub branches eg. Branches {A:A} & {A:B} are
 - [x] this component takes latatude, longatude, and desired projection system from an ESRI .prj file (ESRI WKT) and generates a point. This can be used to place refrancepoints or situate a base map for drawing over if refrance data is unavailable. All points are projected to [WGS84 - World Geodetic System 1984 EPSG:4326](http://epsg.io/4326)
 
 #### Lat Long to Point (EPSG)
-- [] this component takes latatude, longatude, and EPSG code for the desired projection system to generates a point. This can be used to place refrancepoints or situate a base map for drawing over if refrance data is unavailable. All points are projected to [WGS84 - World Geodetic System 1984 EPSG:4326](http://epsg.io/4326)
+- [ ] this component takes latatude, longatude, and EPSG code for the desired projection system to generates a point. This can be used to place refrancepoints or situate a base map for drawing over if refrance data is unavailable. All points are projected to [WGS84 - World Geodetic System 1984 EPSG:4326](http://epsg.io/4326)
 
