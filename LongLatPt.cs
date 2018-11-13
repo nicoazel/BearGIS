@@ -61,8 +61,25 @@ namespace BearGIS
             if (!DA.GetData(1, ref lat)) return;
             if (!DA.GetData(2, ref fp)) return;
 
+            //load projection file
+            string cur_proj = System.IO.File.ReadAllText(@fp);
 
-            //lets say WGS84 is always source of lat long
+            ///Starting projection
+            ProjectionInfo targetProjection = new ProjectionInfo();
+            targetProjection.ParseEsriString(cur_proj);
+
+            //ending projection
+            ProjectionInfo sourceProjection = KnownCoordinateSystems.Geographic.World.WGS1984;
+
+            int len = 1;
+            double[] z = new double[] { 0 };
+            double[] xy = new double[] { lng, lat };
+            DotSpatial.Projections.Reproject.ReprojectPoints(xy, z, sourceProjection, targetProjection, 0, len);
+
+            Point3d rPt = new Point3d(xy[0], xy[1], z[0]);
+            GH_Point pt = new GH_Point(rPt);
+
+            DA.SetData(0, pt);
         }
 
         /// <summary>
