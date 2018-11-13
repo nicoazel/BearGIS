@@ -16,15 +16,15 @@ This tab is for components that export geometry with attributes to GeoJson forma
 #### Polyline to ESRI
 - [x] this component converts Grasshopper Polylines to ESRI GeoJSON
 #### Polyline to GeoJSON
-- [ ] this component converts Grasshopper Polylines to ESRI GeoJSON
+- [ ] this component converts Grasshopper Polylines to GeoJSON
 #### Polygon to ESRI
 - [ ] this component converts Grasshopper Polygons to ESRI GeoJSON
 #### Polylgon to GeoJSON
-- [ ] this component converts Grasshopper Polygons to ESRI GeoJSON
+- [ ] this component converts Grasshopper Polygons to GeoJSON
 #### Point to ESRI
-- [ ] this component converts Grasshopper Pooint to ESRI GeoJSON
-#### Point to GeoJSON
 - [ ] this component converts Grasshopper Point to ESRI GeoJSON
+#### Point to GeoJSON
+- [ ] this component converts Grasshopper Point to GeoJSON
 
 
 ### Import Tab
