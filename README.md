@@ -36,3 +36,12 @@ Multi-Part geometry is handeled with sub branches eg. Branches {A:A} & {A:B} are
 #### Import GeoJSON
 - [ ] this component imports normal GeoJSON with its fields and attributes
 Multi-Part geometry is handeled with sub branches eg. Branches {A:A} & {A:B} are each part of Feature "A" and would correspond to attributes on branch {A} 
+
+### Convert Tab
+
+#### Lat Long to Point (ESRI)
+- [x] this component takes latatude, longatude, and desired projection system from an ESRI .prj file (ESRI WKT) and generates a point. This can be used to place refrancepoints or situate a base map for drawing over if refrance data is unavailable. All points are projected to [WGS84 - World Geodetic System 1984 EPSG:4326](http://epsg.io/4326)
+
+#### Lat Long to Point (EPSG)
+- [] this component takes latatude, longatude, and EPSG code for the desired projection system to generates a point. This can be used to place refrancepoints or situate a base map for drawing over if refrance data is unavailable. All points are projected to [WGS84 - World Geodetic System 1984 EPSG:4326](http://epsg.io/4326)
+
