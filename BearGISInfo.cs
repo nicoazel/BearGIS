@@ -26,7 +26,7 @@ namespace BearGIS
             get
             {
                 //Return a short string describing the purpose of this GHA library.
-                return "";
+                return "Used for interfacing with geojeson";
             }
         }
         public override Guid Id
@@ -42,7 +42,7 @@ namespace BearGIS
             get
             {
                 //Return a string identifying you or your company.
-                return "";
+                return "ComputingUrbanism";
             }
         }
         public override string AuthorContact
@@ -50,7 +50,7 @@ namespace BearGIS
             get
             {
                 //Return a string representing your preferred contact details.
-                return "";
+                return "Nico Azel";
             }
         }
     }

@@ -13,3 +13,7 @@ D:\_11_Git\BearGIS\BearGIS\bin\Newtonsoft.Json.xml
 D:\_11_Git\BearGIS\BearGIS\bin\DotSpatial.Projections.dll
 D:\_11_Git\BearGIS\BearGIS\bin\DotSpatial.Projections.xml
 D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.csprojResolveAssemblyReference.cache
+D:\_11_Git\BearGIS\BearGIS\bin\gdalconst_csharp.dll
+D:\_11_Git\BearGIS\BearGIS\bin\gdal_csharp.dll
+D:\_11_Git\BearGIS\BearGIS\bin\ogr_csharp.dll
+D:\_11_Git\BearGIS\BearGIS\bin\osr_csharp.dll
