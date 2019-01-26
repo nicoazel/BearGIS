@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LongLatPt.cs" />
+    <Compile Include="PolygonESRI.cs" />
     <Compile Include="ReadGeoJson.cs" />
     <Compile Include="PolyLineESRI.cs" />
     <Compile Include="BearGISInfo.cs" />
