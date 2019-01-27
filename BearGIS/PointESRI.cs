@@ -31,18 +31,14 @@ using Newtonsoft.Json.Bson;
 
 namespace BearGIS
 {
-    public class PolyLineESRI : GH_Component
+    public class PointESRI : GH_Component
     {
         /// <summary>
-        /// Each implementation of GH_Component must provide a public 
-        /// constructor without any arguments.
-        /// Category represents the Tab in which the component will appear, 
-        /// Subcategory the panel. If you use non-existing tab or panel names, 
-        /// new tabs/panels will automatically be created.
+        /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public PolyLineESRI()
-          : base("Polyline to EsriJson", "Ln ESRI GIS",
-              "Converts Polyline to Esri Json format",
+        public PointESRI()
+          : base("PointESRI", "PtEsri",
+              "Converts Points with attrbutes to ESRI Json files",
               "BearGIS", "EsriJson")
         {
         }
@@ -54,7 +50,7 @@ namespace BearGIS
         {
             // Use the pManager object to register your input parameters.
             // You can often supply default values when creating parameters.
-            pManager.AddCurveParameter("polylineTree", "plTree", "points that compose the polyline organized in a tree", GH_ParamAccess.tree);
+            pManager.AddPointParameter("PointTree", "PtTree", "points that compose the polyline organized in a tree", GH_ParamAccess.tree);
             pManager.AddTextParameter("fields", "f", "list of Fields for each geometry. This should not be a datatree but a simple list", GH_ParamAccess.list);
             pManager.AddGenericParameter("attributes", "attr", "attributes for each geometry. this should be a dataTree matching the linePoints input, and fields indicies", GH_ParamAccess.tree);
             pManager.AddTextParameter("filePath", "fp", "File Path for new geojson file, sugestion: use '.json'", GH_ParamAccess.item);
@@ -74,33 +70,31 @@ namespace BearGIS
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
-        /// <param name="DA">The DA object can be used to retrieve data from input parameters and 
-        /// to store data in output parameters.</param>
+        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-
             // First, we need to retrieve all data from the input parameters.
             List<string> fields = new List<string>();
-            GH_Structure<IGH_Goo > attributes = new GH_Structure<IGH_Goo>();
-            GH_Structure<GH_Curve> inputCurveTree = new GH_Structure<GH_Curve>();
+            GH_Structure<IGH_Goo> attributes = new GH_Structure<IGH_Goo>();
+            GH_Structure<GH_Point> inputPointTree = new GH_Structure< GH_Point >();
 
             bool writeFile = false;
             string filePath = "";
-            if(!DA.GetData(4, ref writeFile)) return;
+            if (!DA.GetData(4, ref writeFile)) return;
             if (!DA.GetData(3, ref filePath)) return;
             // access the input parameter by index. 
-            if (!DA.GetDataTree(0, out inputCurveTree)) return;
+            if (!DA.GetDataTree(0, out inputPointTree)) return;
             if (!DA.GetDataList(1, fields)) return;
             if (!DA.GetDataTree(2, out attributes)) return;
 
             // We should now validate the data and warn the user if invalid data is supplied.
-                        //if (radius0 < 0.0){
-                        //    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Inner radius must be bigger than or equal to zero");
-                        //    return;}
+            //if (radius0 < 0.0){
+            //    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Inner radius must be bigger than or equal to zero");
+            //    return;}
 
             //Create geojson dic
             Dictionary<string, Object> geoDict = new Dictionary<string, Object>();
-          
+
             // We're set to create the geojson now. To keep the size of the SolveInstance() method small, 
             // The actual functionality will be in a different method:
             //Curve spiral = CreateSpiral(plane, radius0, radius1, turns);
@@ -117,7 +111,7 @@ namespace BearGIS
             }
             geoDict.Add("fieldAliases", fieldAliasDic);
 
-            geoDict.Add("geometryType", "esriGeometryPolyline");
+            geoDict.Add("geometryType", "esriGeometryPoint");
             Dictionary<string, int> sr = new Dictionary<string, int>() { { "wkid", 102729 }, { "latestWkid", 2272 } };
             geoDict.Add("spatialReference", sr);
 
@@ -142,7 +136,7 @@ namespace BearGIS
                 {
                     fieldTypeDict.Add("type", "esriFieldTypeDouble");
                 }
-                
+
                 else if (typeItem is Grasshopper.Kernel.Types.GH_String)
                 {
                     fieldTypeDict.Add("type", "esriFieldTypeString");
@@ -156,13 +150,13 @@ namespace BearGIS
                 else
                 {
                     fieldTypeDict.Add("type", "esriFieldTypeString");
-                    fieldTypeDict.Add("GH_Type", typeItem.GetType().ToString()); 
+                    fieldTypeDict.Add("GH_Type", typeItem.GetType().ToString());
                 }
                 if (item.Value.ToString().Length > 7)
                 {
                     fieldTypeDict.Add("alias", item.Value.ToString().Substring(0, 7));
                 }
-                else 
+                else
                 {
                     fieldTypeDict.Add("alias", item.Value.ToString());
                 }
@@ -172,8 +166,6 @@ namespace BearGIS
             geoDict.Add("fields", fieldsList);
 
             // package the above in a function ^^^
-
-
             //features: [ 
             //    {
             //        geometry:{Paths:[ [-[x,y],[x1,y1]-], [-[x,y],[x1,y1]-]  ]
@@ -190,54 +182,54 @@ namespace BearGIS
             List<Object> featuresList = new List<Object>();
 
             // for every branch  (ie feature)
-            foreach (GH_Path path in inputCurveTree.Paths)
+            foreach (GH_Path path in inputPointTree.Paths)
             {
                 //set branch
-                IList branch = inputCurveTree.get_Branch(path);
+                IList branch = inputPointTree.get_Branch(path);
 
                 //create geometry key
-                Dictionary<string, object> thisGeometry = new Dictionary<string, object>();     
-                List<object> thisPaths = new List<object>();
-                // for every curve  in branch
-                foreach (GH_Curve thisGhCurve in branch)
-                {
-                    List<List<double>> thisPath = new List<List<double>>();
+                Dictionary<string, object> thisGeometry = new Dictionary<string, object>();
 
-                    //convert to rhino curve
-                    Curve rhinoCurve = null;
-                    GH_Convert.ToCurve(thisGhCurve, ref rhinoCurve, 0);
-                    //curve to nurbes
-                    NurbsCurve thisNurbsCurve = rhinoCurve.ToNurbsCurve();
-                    //Get list of control points
-                    Rhino.Geometry.Collections.NurbsCurvePointList theseControlPoints = thisNurbsCurve.Points;
-                    //for each control point
-                    foreach (ControlPoint thisPoint in theseControlPoints)
-                    {
-                        //create coordinate list and add to path list
-                        List<double> thisCoordinate = new List<double>();
-                        thisCoordinate.Add(thisPoint.Location.X);
-                        thisCoordinate.Add(thisPoint.Location.Y);
-                        thisPath.Add(thisCoordinate);                
-                    }//end each control point
-                    
-                    //add this path or paths
-                    thisPaths.Add(thisPath);
-                }//end of each curve in branch
-                //add all paths to geometry key for this feature
-                thisGeometry.Add("Paths", thisPaths);
+                //for multipart create list to hold coordinate lists
+                //List<object> thisPointList = new List<object>();
+                
+                // for every point  in branch
+                foreach (GH_Point thisGhPoint in branch)
+                {
+                    Rhino.Geometry.Point3d thisRhinoPoint = new Point3d();
+                    GH_Convert.ToPoint3d(thisGhPoint, ref thisRhinoPoint ,0);
+
+                    //Non-multipoint
+                    thisGeometry.Add("x", thisRhinoPoint.X);
+                    thisGeometry.Add("y", thisRhinoPoint.Y);
+
+                    //create coordinate list and add to path list
+                    //List<double> thisCoordinate = new List<double>();
+
+                    //add coordinates
+                    //thisCoordinate.Add(thisRhinoPoint.X);
+                    //thisCoordinate.Add(thisRhinoPoint.Y);
+
+                    //add to feature list
+                    //thisPointList.Add(thisCoordinate);
+
+                }//end of each point in branch
+
+                //thisGeometry.Add("Points", thisPointList);
+                //above would be used for multipart
 
                 //creat attriabtrues key
                 Dictionary<string, object> thisAttribtues = new Dictionary<string, object>();
                 IList attributesBranch = attributes.get_Branch(path);
 
                 //foreach (var item in attributesBranch.Select((Value, Index) => new { Value, Index })) //this needs list not IList
-                foreach ( var item in attributesBranch)
+                foreach (var item in attributesBranch)
                 //for (int i = 0; i < attributesBranch.Count; i++)
                 {
                     string thisField = fields[attributesBranch.IndexOf(item)]; //fields are string
 
                     // ---------------------this is in order add the riight type?
-                    
+
                     if (item is Grasshopper.Kernel.Types.GH_Integer)
                     {
                         string thisAttribute = item.ToString();
@@ -270,7 +262,7 @@ namespace BearGIS
                         string thisAttribute = "wasent a type"; item.ToString();
                         thisAttribtues.Add(thisField, thisAttribute);
                     }
-                    
+
                     // ------------------------how to add value of igh_goo verbatum....
                     //thisAttribtues.Add(thisField, thisAttribute);
                 }
@@ -291,7 +283,7 @@ namespace BearGIS
 
 
             //Produces convert dictionary to json text
-        
+
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(geoDict, Newtonsoft.Json.Formatting.Indented);
 
             // Finally assign the retults to the output parameter.
@@ -307,27 +299,23 @@ namespace BearGIS
         }
 
         /// <summary>
-        /// Provides an Icon for every component that will be visible in the User Interface.
-        /// Icons need to be 24x24 pixels.
+        /// Provides an Icon for the component.
         /// </summary>
         protected override System.Drawing.Bitmap Icon
         {
             get
             {
-                // You can add image files to your project resources and access them like this:
-                //return Resources.IconForThisComponent;
-                return null;
+                //You can add image files to your project resources and access them like this:
+                return BearGIS.Properties.Resources.BearGISIconSet_14;
             }
         }
 
         /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
-        /// that use the old ID will partially fail during loading.
+        /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("162ce4ef-4baa-4cc6-b550-1f8bdd0f3363"); }
+            get { return new Guid("0ce010ec-65a4-4898-bd61-e7212de2d311"); }
         }
     }
 }
