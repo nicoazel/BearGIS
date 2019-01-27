@@ -70,8 +70,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyCategoryIcon.cs" />
     <Compile Include="LongLatPt.cs" />
+    <Compile Include="PointESRI.cs" />
     <Compile Include="PolygonESRI.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ReadGeoJson.cs" />
     <Compile Include="PolyLineESRI.cs" />
     <Compile Include="BearGISInfo.cs" />
@@ -80,6 +87,30 @@
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BearGISIconSet-14.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BearGISIconSet-15.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BearGISIconSet-16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BearGISIconSet-17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BearGISIconSet-18.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BearGISIconSet-19.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

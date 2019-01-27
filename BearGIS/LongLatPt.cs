@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 
-using Grasshopper.Kernel;
 using GH_IO;
 using GH_IO.Serialization;
 using Grasshopper;
@@ -90,8 +89,9 @@ namespace BearGIS
             get
             {
                 //You can add image files to your project resources and access them like this:
+                return BearGIS.Properties.Resources.BearGISIconSet_17;
                 // return Resources.IconForThisComponent;
-                return null;
+                //return null;
             }
         }
 

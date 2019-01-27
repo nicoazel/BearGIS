@@ -1,5 +1,7 @@
 # BearGIS
 
+![BearGIS Icon](https://github.com/nicoazel/BearGIS/docs/img/BearGISIcon.png)
+
 ## Intro
 BearGIS is a Grasshopper plugin written in C#
 
@@ -22,10 +24,13 @@ This tab is for components that export geometry with attributes to GeoJson forma
 #### Polylgon to GeoJSON
 - [ ] this component converts Grasshopper Polygons to GeoJSON
 #### Point to ESRI
-- [ ] this component converts Grasshopper Point to ESRI GeoJSON
+- [X] this component converts Grasshopper Point to ESRI GeoJSON
 #### Point to GeoJSON
 - [ ] this component converts Grasshopper Point to GeoJSON
-
+#### Multi-Point to ESRI
+- [ ] this component converts Grasshopper Point to ESRI GeoJSON
+#### Multi-Point to GeoJSON
+- [ ] this component converts Grasshopper Point to GeoJSON
 
 ### Import Tab
 This tab is for components that can import GeoJSON files with geometry and attributes into grasshopper
@@ -39,8 +44,5 @@ Multi-Part geometry is handeled with sub branches eg. Branches {A:A} & {A:B} are
 
 ### Convert Tab
 
-#### Lat Long to Point (ESRI)
-- [x] this component takes latatude, longatude, and desired projection system from an ESRI .prj file (ESRI WKT) and generates a point. This can be used to place refrancepoints or situate a base map for drawing over if refrance data is unavailable. All points are [WGS84 - World Geodetic System 1984 EPSG:4326](http://epsg.io/4326)
-
 #### Lat Long to Point (EPSG)
-- [ ] this component takes latatude, longatude, and EPSG code for the desired projection system to generates a point. This can be used to place refrancepoints or situate a base map for drawing over if refrance data is unavailable. All points are [WGS84 - World Geodetic System 1984 EPSG:4326](http://epsg.io/4326)
+- [x] this component takes latatude, longatude, and desired projection system from an ESRI .prj file (ESRI WKT) and generates a point. This can be used to place refrance points or situate a base map for drawing over if refrance data is unavailable. All points are [WGS84 - World Geodetic System 1984 EPSG:4326](http://epsg.io/4326)

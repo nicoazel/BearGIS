@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>geojson veiwer</title>
+    <meta name="description" content="simple geojson viewer, drag and drop your geojson dataset to view it on the map">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Lib Dependancy -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/ol.js"></script>
+
+  </head><!-- end of head -->
+
+  <script>
+    //For the Javascript use in this site, all functionality is imported as a function in script tages
+    // here you can choose to set global variables to share between differnt script tages
+    // you allso will call any scripts to run on loading of the page.
+
+    //gloabal variabls
+    var loaded_ghx_master;
+    var map;
+    var geoJsonDataset;
+
+    //Run all your global functions here
+    var onloadfunctions = function (){
+      map = loadmap();
+    }
+
+  </script>
+  <body onload="onloadfunctions()"><!-- breaking out the
+      <div class ='titlebar'>
+        <h1> Grasshopper Serve : AECTech Hackathon</h1>
+      </div> <!-- end of titelbar-->
+      <!--------------------------->
+      <div class="headder">
+        <h1> GEOJSON VIEWER <h2>
+      </div><!-- end of header -->
+
+      <div class = 'main flex-grid'>
+
+        <div class = 'sidebar col-1'>
+          <h3>Inputs</h3>
+          <br>
+          <!--
+          <div class="upload-files">
+            <input type="file" id="file-browse" name="files[]" multiple size="1"> // onchange="loadJson()">
+            <output class="file-list" id="file-browse-list"></output>
+          </div>
+        -->
+
+          <div class="upload-files">
+            <div id="file-drop-div">drop geojson here</div>
+            <output class="file-list" id="file-drop-list"></output>
+          </div>
+          <br>
+          <button class="myButton" onclick="AddLayer()" id=data_add_button type="button">Add Data Set</button>
+
+        </div><!-- end of Sidebar-->
+        <!------------------------->
+        <div class = 'viewer-master col-4'>
+          <div id = 'viewer-top'>
+          </div><!--end of viewer-top-->
+
+          <div id = 'viewer-bottom'>
+
+            <div id="map-div-id">
+            </div><!-- end of map div -->
+
+          </div><!--end of viewer-bottom-->
+        </div><!-- end of viewer-master -->
+        <!------------------------->
+
+      </div><!-- end of main -->
+
+
+      <!----------------------->
+      <div class = "footer">
+        <h3> Thanks for Looking</h3>
+      </div><!-- end of footer -->
+
+      <!-- Script Zone -->
+      <script src='js/loadOpenLayersMap.js'></script>
+      <script src='js/loadJsonRequest.js'></script>
+      <script src='js/fileDragtoUpload.js'></script>
+      <!--
+      <script src='js/fileBrowstoUpbload.js'></script>
+      -->
+
+  </body>
+</html>
