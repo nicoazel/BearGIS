@@ -1,5 +1,6 @@
 # BearGIS
-<img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/BearGISIcon.png" alt="BearGIS Icon" height="100"/>
+<img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/BearGISIcon.png" alt="BearGIS Icon" height="300"/>
+
 ## Intro
 BearGIS is a Grasshopper plugin written in C#
 
