@@ -79,7 +79,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ReadGeoJson.cs" />
+    <Compile Include="ReadESRIJson.cs" />
     <Compile Include="PolyLineESRI.cs" />
     <Compile Include="BearGISInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
