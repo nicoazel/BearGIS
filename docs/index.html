@@ -44,7 +44,71 @@
             <tr>
               <td>
                 <a href="link">
-                  <img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/BearGISIconSet-14.png">
+                  <img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/comp-icon/BearGISIconSet-14.png">
+                </a>
+              </td>
+              <td>
+                <a href="link">Point to ESRI</a>
+                <span class="codeword">(esriPt)</span>
+                <br>
+                <span class="desc">
+                  this component converts Grasshopper Point to ESRI GeoJSON
+                </span>
+              </td>
+            </tr>
+            <!-- component template -->
+            <tr>
+              <td>
+                <a href="link">
+                  <img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/comp-icon/BearGISIconSet-15.png">
+                </a>
+              </td>
+              <td>
+                <a href="link">Polyline to ESRI</a>
+                <span class="codeword">(esriPl)</span>
+                <br>
+                <span class="desc">
+                  this component converts Grasshopper Polylines to ESRI GeoJSON
+                </span>
+              </td>
+            </tr>
+            <!-- component template -->
+            <tr>
+              <td>
+                <a href="link">
+                  <img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/comp-icon/BearGISIconSet-16.png">
+                </a>
+              </td>
+              <td>
+                <a href="link">Polygon to ESRI</a>
+                <span class="codeword">(esriPly)</span>
+                <br>
+                <span class="desc">
+                  this component converts Grasshopper Polygons to ESRI GeoJSON
+                </span>
+              </td>
+            </tr>
+            <!-- component template -->
+            <tr>
+              <td>
+                <a href="link">
+                  <img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/comp-icon/BearGISIconSet-17.png">
+                </a>
+              </td>
+              <td>
+                <a href="link">Lat Long to PointN</a>
+                <span class="codeword">(ptLoc)</span>
+                <br>
+                <span class="desc">
+                  this component takes latatude, longatude, and desired projection system from an ESRI .prj file (ESRI WKT) and generates a point.
+                </span>
+              </td>
+            </tr>
+            <!-- component template -->
+            <tr>
+              <td>
+                <a href="link">
+                  <img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/comp-icon/BearGISIconSet-18.png">
                 </a>
               </td>
               <td>
@@ -60,79 +124,15 @@
             <tr>
               <td>
                 <a href="link">
-                  <img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/BearGISIconSet-15.png">
+                  <img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/comp-icon/BearGISIconSet-20.png">
                 </a>
               </td>
               <td>
-                <a href="link">Import ESRI GeoJSON</a>
-                <span class="codeword">(impEsri)</span>
+                <a href="link">Read SHP</a>
+                <span class="codeword">(rShp)</span>
                 <br>
                 <span class="desc">
-                  this component imports a ESRI formatted GeoJSON with its fields and attributes
-                </span>
-              </td>
-            </tr>
-            <!-- component template -->
-            <tr>
-              <td>
-                <a href="link">
-                  <img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/BearGISIconSet-16.png">
-                </a>
-              </td>
-              <td>
-                <a href="link">Import ESRI GeoJSON</a>
-                <span class="codeword">(impEsri)</span>
-                <br>
-                <span class="desc">
-                  this component imports a ESRI formatted GeoJSON with its fields and attributes
-                </span>
-              </td>
-            </tr>
-            <!-- component template -->
-            <tr>
-              <td>
-                <a href="link">
-                  <img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/BearGISIconSet-17.png">
-                </a>
-              </td>
-              <td>
-                <a href="link">Import ESRI GeoJSON</a>
-                <span class="codeword">(impEsri)</span>
-                <br>
-                <span class="desc">
-                  this component imports a ESRI formatted GeoJSON with its fields and attributes
-                </span>
-              </td>
-            </tr>
-            <!-- component template -->
-            <tr>
-              <td>
-                <a href="link">
-                  <img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/BearGISIconSet-18.png">
-                </a>
-              </td>
-              <td>
-                <a href="link">Import ESRI GeoJSON</a>
-                <span class="codeword">(impEsri)</span>
-                <br>
-                <span class="desc">
-                  this component imports a ESRI formatted GeoJSON with its fields and attributes
-                </span>
-              </td>
-            </tr>
-            <!-- component template -->
-            <tr>
-              <td>
-                <a href="link">
-                  <img src="https://github.com/nicoazel/BearGIS/raw/master/docs/img/BearGISIconSet-18.png">
-                </a>
-              </td>
-              <td>
-                <a href="link">Import ESRI GeoJSON</a>
-                <span class="codeword">(impEsri)</span>
-                <br>
-                <span class="desc">
-                  this component imports a ESRI formatted GeoJSON with its fields and attributes
+                  this component reads .shp files into grasshopper!
                 </span>
               </td>
             </tr>
@@ -153,11 +153,13 @@
             The goal of BearGIS is to develop a plugin that allows fluid exchange of GIS data into and out of grasshopper.
           </p>
           <p>
-            This is currently a <strong>work in progress</strong>. Checked components are integrated into master and functioning at some level. There may still be errors in some use cases. Any unchecked component is eather planed but not implmented or still in a Dev Branch.
+            This is currently a <strong>work in progress</strong>. Look at the github repository to see progress. Checked components are integrated into master and functioning at some level. There may still be errors in some use cases. Any unchecked component is eather planed but not implmented or still in a Dev Branch.
           </p>
         </div>
         <div>
-          <button class="downloadButton" type="button" href="https://github.com/nicoazel/BearGIS/raw/master/docs/plugin-zip/BearGIS_v0.01.0.zip">download plugin</button>
+          <form method="post" target="_blank" action="https://github.com/nicoazel/BearGIS/raw/master/docs/plugin-zip/BearGIS_v0.01.0.zip">
+          <button class="downloadButton">download plugin</button>
+        </form>
         </div>
       </div>
 
@@ -192,7 +194,7 @@
           </div>
           <br>
           <button class="myButton" onclick="AddLayer()" id=data_add_button type="button">Add Data Set</button>
-
+          <p>Note this only works with geojson, not ESRI json. so currently bearGIS dosent have any exporting components that will make this work. it will get there eventually :-/</p>
         </div><!-- end of Sidebar-->
         <!------------------------->
         <div class = 'viewer-master col-4'>

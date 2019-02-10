@@ -148,6 +148,13 @@ body{
     width: 100%;
     text-decoration: none;
 }
+.downloadButton a{
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 25px;
+  text-decoration:none;
+}
 .downloadButton:active {
 	position:relative;
 	top:1px;
