@@ -12,6 +12,8 @@ The goal of BearGIS is to develop a plugin that allows fluid exchange of GIS dat
 
 This is currently a __work in progress__. Checked components are integrated into master and functioning at some level. There may still be errors in some use cases. Any unchecked component is eather planed but not implmented or still in a Dev Branch.
 
+If you are a developer and are looking into the code... Its a messy. There is a fair amount of cleaning to be done.
+
 ## BearGIS Components List
 
 ### Export Tab
