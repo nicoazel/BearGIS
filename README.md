@@ -32,7 +32,10 @@ This tab is for components that export geometry with attributes to GeoJson forma
 - [ ] this component converts Grasshopper Point to GeoJSON
 
 ### Import Tab
-This tab is for components that can import GeoJSON files with geometry and attributes into grasshopper
+This tab is for components that can import GeoJSON files with geometry and attributes into grasshopper.
+
+#### Read SHP
+- [x] this component reads .shp files into grasshopper! mlti-Part geometry is handeled with sub branches eg. Branches {A:A} & {A:B} are each part of Feature "A" and would correspond to attributes on branch {A} . hint use pathMapper {a;b}=>{a} after generating polylines and polygons. 
 
 #### Import ESRI GeoJSON
 - [x] this component imports a ESRI formatted GeoJSON with its fields and attributes
