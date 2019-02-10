@@ -26,3 +26,5 @@ D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\DotSpatial.Projections.dll
 D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\Newtonsoft.Json.dll
 D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\DotSpatial.Projections.xml
 D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\Newtonsoft.Json.xml
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\BearGIS.dll.config
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\Harlow.dll
