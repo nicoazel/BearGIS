@@ -39,8 +39,8 @@ namespace BearGIS
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("filePath", "fp", "File Path for new geojson file", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("readFile", "r", "set to true to write to file", GH_ParamAccess.item);
+            pManager.AddTextParameter("filePath", "fp", "File Path for shp file", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("readFile", "r", "set to true to read to file", GH_ParamAccess.item);
         }
 
         /// <summary>
