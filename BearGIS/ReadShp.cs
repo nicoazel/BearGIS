@@ -48,7 +48,7 @@ namespace BearGIS
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("EsriJSON", "json", "this is the importated geojson dataset", GH_ParamAccess.item);
+           // pManager.AddTextParameter("EsriJSON", "json", "this is the importated geojson dataset", GH_ParamAccess.item);
             pManager.AddTextParameter("fields", "flds", "these are teh data fields assosiated with each feature", GH_ParamAccess.list);
             pManager.AddTextParameter("attributes", "attr", "these are the attribute values for each field. reach feature is represented in one branch", GH_ParamAccess.tree);
             pManager.AddGeometryParameter("features", "ftr", "these are the improted features", GH_ParamAccess.tree);
@@ -68,7 +68,7 @@ namespace BearGIS
             if (!DA.GetData(1, ref readFile)) return;
 
             //JObject geoJsonData = null;
-            JArray geoJsonData = null;
+            JArray jsonObj = null;
             if (readFile)
             {
 
@@ -81,20 +81,63 @@ namespace BearGIS
 
                 //System.IO.File.ReadAllText(filePath,)
                 //geoJsonData = JObject.Parse(shpJsonString);
-                geoJsonData = JArray.Parse(shpJsonString);
-                JObject jsonObj = new JObject();
-                jsonObj.Add("features", geoJsonData);
-                //jsonObj.Add("shapetype",  );
-                //type check:
-                //var itemcheck = jsonObj["features"][0]["coordinates"];
+                jsonObj = JArray.Parse(shpJsonString);
+                JObject geoJsonData = new JObject();
+                geoJsonData.Add("features", jsonObj);
 
-
-                //Newtonsoft.Json.JsonConvert.ser
-                var json = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
                 //var json = Newtonsoft.Json.JsonConvert.SerializeObject(geoJsonData, Newtonsoft.Json.Formatting.Indented);
+                //DA.SetData(0, json);
 
-                DA.SetData(0, json);
-                //DA.SetData(0, shpJsonString);
+
+                //read features
+                JArray features = (JArray)geoJsonData["features"];
+                GH_Structure<GH_String> attributes = new GH_Structure<GH_String>();
+                GH_Structure<GH_Point> featureGeometry = new GH_Structure<GH_Point>();
+                int featureIndex = 0;
+                foreach (JObject feature in features)
+                {
+                    GH_Path currentPath = new GH_Path(featureIndex);
+                    foreach (var attr in (JObject)feature["properties"])
+                    {
+                        JToken attributeToken = attr.Value;
+                        string thisAttribute = (string)attributeToken;
+                        GH_String thisGhAttribute = new GH_String(thisAttribute);
+                        attributes.Append(thisGhAttribute, currentPath);
+                    }
+                    int pathIndex = 0;
+
+
+                    foreach (JArray pathsArray in (JArray)feature["coordinates"])
+                    {
+                        List<GH_Point> thisPathPoints = new List<GH_Point>();
+                        foreach (var path in pathsArray)
+                        {
+                            Point3d thisPoint = new Point3d((double)path[0], (double)path[1], 0);
+                            GH_Point thisGhPoint = new GH_Point(thisPoint);
+                            thisPathPoints.Add(thisGhPoint);
+                        }
+                        GH_Path thisPath = new GH_Path(featureIndex, pathIndex);
+                        featureGeometry.AppendRange(thisPathPoints, thisPath);
+                        pathIndex++;
+                    }
+
+                    featureIndex++;
+                }//end polyline
+                DA.SetDataTree(1, attributes);
+                DA.SetDataTree(2, featureGeometry);
+
+                ///
+                ///set attributes
+  
+                List<string> featureFields = new List<string>();
+                JToken fieldObjs =  geoJsonData["features"][0]["properties"];
+                foreach (JProperty prop in fieldObjs)
+                {
+                    string thisField = (string)prop.Name;
+                    featureFields.Add(thisField);
+                }
+                DA.SetDataList(0, featureFields);
+            
 
 
             }//end if read file
@@ -110,7 +153,7 @@ namespace BearGIS
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return BearGIS.Properties.Resources.BearGISIconSet_20;
             }
         }
 
