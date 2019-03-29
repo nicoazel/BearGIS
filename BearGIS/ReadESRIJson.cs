@@ -99,6 +99,10 @@ namespace BearGIS
                 {
                     JToken attributeToken = attr.Value;
                     string thisAttribute = (string)attributeToken;
+                    if (thisAttribute == " " || thisAttribute == "" || thisAttribute == null)
+                        {
+                            thisAttribute = "nan";
+                        }
                     GH_String thisGhAttribute = new GH_String(thisAttribute);
                     attributes.Append(thisGhAttribute, currentPath);
                 }

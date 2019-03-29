@@ -53,6 +53,7 @@ namespace BearGIS
             pManager.AddCurveParameter("polygonTree", "plTree", "Polylines organized in a tree", GH_ParamAccess.tree);
             pManager.AddTextParameter("fields", "f", "list of Fields for each geometry. This should not be a datatree but a simple list", GH_ParamAccess.list);
             pManager.AddGenericParameter("attributes", "attr", "attributes for each geometry. this should be a dataTree matching the linePoints input, and fields indicies", GH_ParamAccess.tree);
+            pManager.AddIntegerParameter("epsgCode", "epsg", "The epsg code for the spatial projection system", GH_ParamAccess.item);
             pManager.AddTextParameter("filePath", "fp", "File Path for new geojson file, sugestion: use '.json'", GH_ParamAccess.item);
             pManager.AddBooleanParameter("writeFile", "w", "set to true to write to file", GH_ParamAccess.item);
 
@@ -82,12 +83,14 @@ namespace BearGIS
 
             bool writeFile = false;
             string filePath = "";
-            if (!DA.GetData(4, ref writeFile)) return;
-            if (!DA.GetData(3, ref filePath)) return;
+            int epsg=-1;
+            if (!DA.GetData(5, ref writeFile)) return;
+            if (!DA.GetData(4, ref filePath)) return;
             // access the input parameter by index. 
             if (!DA.GetDataTree(0, out inputCurveTree)) return;
             if (!DA.GetDataList(1, fields)) return;
             if (!DA.GetDataTree(2, out attributes)) return;
+            if (!DA.GetData(3, ref epsg)) return;
 
             // We should now validate the data and warn the user if invalid data is supplied.
             //if (radius0 < 0.0){
