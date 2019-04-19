@@ -1,0 +1,32 @@
+D:\_11_Git\BearGIS_Solution\BearGIS\bin\BearGIS.dll
+D:\_11_Git\BearGIS_Solution\BearGIS\bin\BearGIS.pdb
+D:\_11_Git\BearGIS_Solution\BearGIS\bin\Newtonsoft.Json.dll
+D:\_11_Git\BearGIS_Solution\BearGIS\bin\Newtonsoft.Json.xml
+D:\_11_Git\BearGIS_Solution\BearGIS\obj\Debug32\BearGIS.dll
+D:\_11_Git\BearGIS_Solution\BearGIS\obj\Debug32\BearGIS.pdb
+D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.dll
+D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.pdb
+D:\_11_Git\BearGIS\BearGIS\bin\BearGIS.dll
+D:\_11_Git\BearGIS\BearGIS\bin\BearGIS.pdb
+D:\_11_Git\BearGIS\BearGIS\bin\Newtonsoft.Json.dll
+D:\_11_Git\BearGIS\BearGIS\bin\Newtonsoft.Json.xml
+D:\_11_Git\BearGIS\BearGIS\bin\DotSpatial.Projections.dll
+D:\_11_Git\BearGIS\BearGIS\bin\DotSpatial.Projections.xml
+D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.csprojResolveAssemblyReference.cache
+D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.Properties.Resources.resources
+D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.csproj.GenerateResource.Cache
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\obj\Debug32\BearGIS.csprojResolveAssemblyReference.cache
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\obj\Debug32\BearGIS.Properties.Resources.resources
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\obj\Debug32\BearGIS.csproj.GenerateResource.Cache
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\obj\Debug32\BearGIS.dll
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\obj\Debug32\BearGIS.pdb
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\BearGIS.dll
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\BearGIS.pdb
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\DotSpatial.Projections.dll
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\Newtonsoft.Json.dll
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\DotSpatial.Projections.xml
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\Newtonsoft.Json.xml
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\BearGIS.dll.config
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\Harlow.dll
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\DotSpatial.Positioning.dll
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\DotSpatial.Positioning.xml
