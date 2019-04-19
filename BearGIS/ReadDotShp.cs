@@ -19,6 +19,7 @@ using DotSpatial.Controls.Header;
 using DotSpatial.Data;
 using DotSpatial.Symbology;
 using DotSpatial.Topology;
+using System.Data;
 
 namespace BearGIS
 {
@@ -71,13 +72,37 @@ namespace BearGIS
             if (readFile)
             {
                 GH_Structure<GH_Point> featureGeometry = new GH_Structure<GH_Point>();//tree with all features
-
+                GH_Structure<GH_String> attributes = new GH_Structure<GH_String>();
                 var openSHP = Shapefile.OpenFile(@filePath);
+                
+                List<string> featureFields = new List<string>();
+                foreach(DataColumn column in openSHP.GetColumns())
+                {
+                    featureFields.Add(column.ColumnName);
+                }
+
+
                 int featureIndex = 0;
                 foreach (var currentFeature in openSHP.Features)
                 {
-                    var coordinates = currentFeature.Coordinates;
+
+                    //current geature attributes
                     GH_Path currentPath = new GH_Path(featureIndex);
+                    var currentAttributes = currentFeature.DataRow;
+                    foreach(var attr in currentAttributes.ItemArray)
+                    {
+                        string thisAttribute = Convert.ToString(attr);
+                        if (thisAttribute == " " || thisAttribute == "" || thisAttribute == null)
+                        {
+                            thisAttribute = "nan";
+                        }
+                        GH_String thisGhAttribute = new GH_String(thisAttribute);
+                        attributes.Append(thisGhAttribute, currentPath);
+                    }
+                    //end current feature attributes
+
+                    var coordinates = currentFeature.Coordinates;
+                    
 
                     for (int pathIndex = 0; pathIndex <= currentFeature.NumGeometries - 1; pathIndex++)//for each path in the feature
                     {
@@ -97,7 +122,9 @@ namespace BearGIS
                         featureGeometry.AppendRange(thisPathPoints, thisPath);//Add this path to the feature tree
                     }//end for goes in feature
                     featureIndex++;
-                }//end while features
+                }//end while features\
+                DA.SetDataList(0, featureFields);
+                DA.SetDataTree(1, attributes);
                 DA.SetDataTree(2, featureGeometry);
             }//end if read
             
