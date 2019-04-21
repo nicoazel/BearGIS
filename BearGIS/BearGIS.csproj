@@ -127,6 +127,7 @@
   <ItemGroup>
     <Compile Include="MyCategoryIcon.cs" />
     <Compile Include="LongLatPt.cs" />
+    <Compile Include="WriteShp.cs" />
     <Compile Include="ReadDotShp.cs" />
     <Compile Include="ReadShp.cs" />
     <Compile Include="PointESRI.cs" />
