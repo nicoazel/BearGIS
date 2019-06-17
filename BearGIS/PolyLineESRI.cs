@@ -34,10 +34,10 @@ namespace BearGIS
     public class PolyLineESRI : GH_Component
     {
         /// <summary>
-        /// Each implementation of GH_Component must provide a public 
+        /// Each implementation of GH_Component must provide a public
         /// constructor without any arguments.
-        /// Category represents the Tab in which the component will appear, 
-        /// Subcategory the panel. If you use non-existing tab or panel names, 
+        /// Category represents the Tab in which the component will appear,
+        /// Subcategory the panel. If you use non-existing tab or panel names,
         /// new tabs/panels will automatically be created.
         /// </summary>
         public PolyLineESRI()
@@ -75,7 +75,7 @@ namespace BearGIS
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
-        /// <param name="DA">The DA object can be used to retrieve data from input parameters and 
+        /// <param name="DA">The DA object can be used to retrieve data from input parameters and
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -90,7 +90,7 @@ namespace BearGIS
             int epsg = -1;
             if (!DA.GetData(5, ref writeFile)) return;
             if (!DA.GetData(4, ref filePath)) return;
-            // access the input parameter by index. 
+            // access the input parameter by index.
             if (!DA.GetDataTree(0, out inputCurveTree)) return;
             if (!DA.GetDataList(1, fields)) return;
             if (!DA.GetDataTree(2, out attributes)) return;
@@ -102,8 +102,8 @@ namespace BearGIS
 
             //Create geojson dic
             Dictionary<string, Object> geoDict = new Dictionary<string, Object>();
-          
-            // We're set to create the geojson now. To keep the size of the SolveInstance() method small, 
+
+            // We're set to create the geojson now. To keep the size of the SolveInstance() method small,
             // The actual functionality will be in a different method:
             //Curve spiral = CreateSpiral(plane, radius0, radius1, turns);
 
@@ -144,7 +144,7 @@ namespace BearGIS
                 {
                     fieldTypeDict.Add("type", "esriFieldTypeDouble");
                 }
-                
+
                 else if (typeItem is Grasshopper.Kernel.Types.GH_String)
                 {
                     fieldTypeDict.Add("type", "esriFieldTypeString");
@@ -158,13 +158,13 @@ namespace BearGIS
                 else
                 {
                     fieldTypeDict.Add("type", "esriFieldTypeString");
-                    fieldTypeDict.Add("GH_Type", typeItem.GetType().ToString()); 
+                    fieldTypeDict.Add("GH_Type", typeItem.GetType().ToString());
                 }
                 if (item.Value.ToString().Length > 7)
                 {
                     fieldTypeDict.Add("alias", item.Value.ToString().Substring(0, 7));
                 }
-                else 
+                else
                 {
                     fieldTypeDict.Add("alias", item.Value.ToString());
                 }
@@ -176,7 +176,7 @@ namespace BearGIS
             // package the above in a function ^^^
 
 
-            //features: [ 
+            //features: [
             //    {
             //        geometry:{Paths:[ [-[x,y],[x1,y1]-], [-[x,y],[x1,y1]-]  ]
             //        attributes:{ field:value, field1:value1}
@@ -198,7 +198,7 @@ namespace BearGIS
                 IList branch = inputCurveTree.get_Branch(path);
 
                 //create geometry key
-                Dictionary<string, object> thisGeometry = new Dictionary<string, object>();     
+                Dictionary<string, object> thisGeometry = new Dictionary<string, object>();
                 List<object> thisPaths = new List<object>();
                 // for every curve  in branch
                 foreach (GH_Curve thisGhCurve in branch)
@@ -219,9 +219,9 @@ namespace BearGIS
                         List<double> thisCoordinate = new List<double>();
                         thisCoordinate.Add(thisPoint.Location.X);
                         thisCoordinate.Add(thisPoint.Location.Y);
-                        thisPath.Add(thisCoordinate);                
+                        thisPath.Add(thisCoordinate);
                     }//end each control point
-                    
+
                     //add this path or paths
                     thisPaths.Add(thisPath);
                 }//end of each curve in branch
@@ -239,7 +239,7 @@ namespace BearGIS
                     string thisField = fields[attributesBranch.IndexOf(item)]; //fields are string
 
                     // ---------------------this is in order add the riight type?
-                    
+
                     if (item is Grasshopper.Kernel.Types.GH_Integer)
                     {
                         string thisAttribute = item.ToString();
@@ -272,7 +272,7 @@ namespace BearGIS
                         string thisAttribute = "wasent a type"; item.ToString();
                         thisAttribtues.Add(thisField, thisAttribute);
                     }
-                    
+
                     // ------------------------how to add value of igh_goo verbatum....
                     //thisAttribtues.Add(thisField, thisAttribute);
                 }
@@ -293,7 +293,7 @@ namespace BearGIS
 
 
             //Produces convert dictionary to json text
-        
+
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(geoDict, Newtonsoft.Json.Formatting.Indented);
 
             // Finally assign the retults to the output parameter.
@@ -318,13 +318,12 @@ namespace BearGIS
             {
                 // You can add image files to your project resources and access them like this:
                 return BearGIS.Properties.Resources.BearGISIconSet_15;
-                //return null;
             }
         }
 
         /// <summary>
-        /// Each component must have a unique Guid to identify it. 
-        /// It is vital this Guid doesn't change otherwise old ghx files 
+        /// Each component must have a unique Guid to identify it.
+        /// It is vital this Guid doesn't change otherwise old ghx files
         /// that use the old ID will partially fail during loading.
         /// </summary>
         public override Guid ComponentGuid
