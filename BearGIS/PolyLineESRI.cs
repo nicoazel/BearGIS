@@ -318,7 +318,6 @@ namespace BearGIS
             {
                 // You can add image files to your project resources and access them like this:
                 return BearGIS.Properties.Resources.BearGISIconSet_15;
-                //return null;
             }
         }
 
