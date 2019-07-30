@@ -30,7 +30,7 @@ namespace BearGIS
         /// </summary>
         public ReadDotShp()
           : base("ReadDotShp", "DotSHP-R",
-              "Reads SHP files. not much testing of this yet",
+              "Reads SHP files. not much testing of this yet, most files import well",
               "BearGIS", "Import")
         {
         }

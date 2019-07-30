@@ -111,10 +111,30 @@ namespace BearGIS
             {
 
                 // Add fields to the feature sets attribute table 
+                int fieldindex = 0;
                 foreach (string field in fields)
                 {
                     //<<<dubble chack if this is properly declaring type>>>\\
-                    fs.DataTable.Columns.Add(new DataColumn(field, typeof(string)));
+                    GH_Path thisFieldPath = attributes.Paths[0];
+                    var typeItem = attributes.get_Branch(thisFieldPath)[fieldindex];//.ToString();
+                    double outdouble;
+                    int outint;
+
+                    //if (double.TryParse(typeItem, out outdouble))
+                    if (typeItem is Grasshopper.Kernel.Types.GH_Number)
+                    {
+                        fs.DataTable.Columns.Add(new DataColumn(field, typeof(double)));
+                    }
+                    //else if(int.TryParse(typeItem, out outint))
+                    else if (typeItem is Grasshopper.Kernel.Types.GH_Integer)
+                    {
+                        fs.DataTable.Columns.Add(new DataColumn(field, typeof(int)));
+                    }
+                    else
+                    {
+                        fs.DataTable.Columns.Add(new DataColumn(field, typeof(string)));
+                    }
+                    fieldindex += 1;
                 }
          
 
@@ -168,7 +188,21 @@ namespace BearGIS
                     foreach (var thisAttribute in attributes.get_Branch(path))
                     {
                         //converting all fields to (((Proper Type...?)))
-                        feature.DataRow[fields[thisIndex]] = thisAttribute;
+                        // 1) check data row type
+                        if (fs.DataTable.Columns[fields[thisIndex]].DataType == typeof(double)){
+                            feature.DataRow[fields[thisIndex]] = Convert.ToDouble(thisAttribute.ToString());
+                        }
+                        if (fs.DataTable.Columns[fields[thisIndex]].DataType == typeof(int))
+                        {
+                            feature.DataRow[fields[thisIndex]] = Convert.ToInt32(thisAttribute.ToString());
+                        }
+                        else
+                        {
+                            feature.DataRow[fields[thisIndex]] = thisAttribute.ToString();
+                        }
+                        // 2) convert data to that type system.iconvertable?
+                        // add attribute
+                        
                         //feature.DataRow[fields[thisIndex]] = thisAttribute.ToString(); //currently everything is a string....
                         //<<<!!!!!!!!!! dubble chack if this is properly converting to the type declared above !!!!!!!!!!>>>\\
                         thisIndex++;
