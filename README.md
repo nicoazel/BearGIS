@@ -6,6 +6,7 @@ BearGIS is a Grasshopper plugin written in C#
 
 Check out the plugin-page: https://nicoazel.github.io/BearGIS/
 
+Check out Demo Video: [YouTube Video](https://youtu.be/wtc19CEzHuw)
 
 ## Primary Functionality
 The goal of BearGIS is to develop a plugin that allows fluid exchange of GIS data into and out of grasshopper.
