@@ -114,26 +114,39 @@ namespace BearGIS
                 int fieldindex = 0;
                 foreach (string field in fields)
                 {
+
+
+
                     //<<<dubble chack if this is properly declaring type>>>\\
                     GH_Path thisFieldPath = attributes.Paths[0];
                     var typeItem = attributes.get_Branch(thisFieldPath)[fieldindex];//.ToString();
-                    double outdouble;
-                    int outint;
+                   // double outdouble;
+                   // int outint;
 
-                    //if (double.TryParse(typeItem, out outdouble))
-                    if (typeItem is Grasshopper.Kernel.Types.GH_Number)
-                    {
-                        fs.DataTable.Columns.Add(new DataColumn(field, typeof(double)));
-                    }
-                    //else if(int.TryParse(typeItem, out outint))
-                    else if (typeItem is Grasshopper.Kernel.Types.GH_Integer)
-                    {
-                        fs.DataTable.Columns.Add(new DataColumn(field, typeof(int)));
-                    }
-                    else
-                    {
-                        fs.DataTable.Columns.Add(new DataColumn(field, typeof(string)));
-                    }
+                   
+                    //Try new things area
+                    Dictionary<string, Type> typeMap = new Dictionary<string, Type> { { "gh_int32", typeof(short) }, { "gh_int64", typeof(long) }, { "gh_double", typeof(double) }, { "gh_decimal", typeof(float) }, { "gh_date", typeof(DateTime) }, { "gh_guid", typeof(string) }, { "gh_string", typeof(string) } };
+                    var fieldType = Enum.GetName(typeof(GH_IO.Types.GH_Types), typeItem);
+                    var shpType = typeMap[fieldType];
+                    fs.DataTable.Columns.Add(new DataColumn(field, shpType));
+                    //end try new things
+                    /*
+                   //if (double.TryParse(typeItem, out outdouble))
+                   if (typeItem is Grasshopper.Kernel.Types.GH_Number)
+                   {
+                       fs.DataTable.Columns.Add(new DataColumn(field, typeof(double)));
+                   }
+                   //else if(int.TryParse(typeItem, out outint))
+                   else if (typeItem is Grasshopper.Kernel.Types.GH_Integer)
+                   {
+                       fs.DataTable.Columns.Add(new DataColumn(field, typeof(int)));
+                   }
+                   else
+                   {
+                       fs.DataTable.Columns.Add(new DataColumn(field, typeof(string)));
+                   }
+                   */
+
                     fieldindex += 1;
                 }
          
