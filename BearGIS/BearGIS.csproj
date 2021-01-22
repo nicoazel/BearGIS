@@ -130,7 +130,6 @@
     <Compile Include="PolygonSHP.cs" />
     <Compile Include="PolylineSHP.cs" />
     <Compile Include="PointSHP.cs" />
-    <Compile Include="WriteShp.cs" />
     <Compile Include="ReadDotShp.cs" />
     <Compile Include="ReadShp.cs" />
     <Compile Include="PointESRI.cs" />

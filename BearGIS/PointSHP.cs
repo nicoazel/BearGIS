@@ -111,8 +111,20 @@ namespace BearGIS
                 // Add fields to the feature sets attribute table 
                 foreach (string field in fields)
                 {
-                    //<<<dubble chack if this is properly declaring type>>>\\
-                    fs.DataTable.Columns.Add(new DataColumn(field, typeof(string)));
+                    //check for type
+                    string[] splitField = field.Split(';');
+                    //if field type provided, specify it
+                    if (splitField.Length == 2)
+                    {
+
+                        fs.DataTable.Columns.Add(new DataColumn(splitField[0], Type.GetType(splitField[1])));
+                    }
+                    else
+                    {
+                        //otherwise jsut use a string
+                        fs.DataTable.Columns.Add(new DataColumn(field, typeof(string)));
+                    }
+
                 }
                 // for every branch  (ie feature)
                 foreach (GH_Path path in inputPointTree.Paths)
@@ -144,9 +156,8 @@ namespace BearGIS
                     //add each attribute for the pt's path
                     foreach (var thisAttribute in attributes.get_Branch(path))
                     {
-                        //converting all fields to (((Proper Type...?)))
-                        feature.DataRow[fields[thisIndex]] = thisAttribute.ToString(); //currently everything is a string....
-                                                                                       //<<<!!!!!!!!!! dubble chack if this is properly converting to the type declared above !!!!!!!!!!>>>\\
+                        string thisField = fields[thisIndex].Split(';')[0];
+                        feature.DataRow[thisField] = thisAttribute.ToString(); //currently everything is a string....                                                  
                         thisIndex++;
                     }
                     //finish attribute additions
