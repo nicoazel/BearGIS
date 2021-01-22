@@ -50,7 +50,7 @@ namespace BearGIS
         {
             // You can often supply default values when creating parameters.
             pManager.AddCurveParameter("polygonTree", "pgTree", "Polygon organized in a tree", GH_ParamAccess.tree);
-            pManager.AddTextParameter("fields", "f", "list of Fields for each geometry. This should not be a datatree but a simple list", GH_ParamAccess.list);
+            pManager.AddTextParameter("fields", "f", "list of Fields for each geometry. This should not be a datatree but a simple list. To specify type use .net built in types eg System.Double, System.String, System.Boolean", GH_ParamAccess.list);
             pManager.AddGenericParameter("attributes", "attr", "attributes for each geometry. this should be a dataTree matching the linePoints input, and fields indicies", GH_ParamAccess.tree);
             pManager.AddTextParameter(".prj File Path", "prj", "The prj file for setting the spatial projection system", GH_ParamAccess.item);
             pManager.AddTextParameter("filePath", "fp", "File Path for new geojson file, sugestion: use '.json'", GH_ParamAccess.item);
@@ -112,8 +112,20 @@ namespace BearGIS
                 // Add fields to the feature sets attribute table 
                 foreach (string field in fields)
                 {
-                    //<<<dubble chack if this is properly declaring type>>>\\
-                    fs.DataTable.Columns.Add(new DataColumn(field, typeof(string)));
+                    //check for type
+                    string[] splitField = field.Split(';');
+                    //if field type provided, specify it
+                    if (splitField.Length == 2)
+                    {
+                        fs.DataTable.Columns.Add(new DataColumn(splitField[0], Type.GetType(splitField[1])));
+                    }
+                    else
+                    {
+                        //otherwise jsut use a string
+                        fs.DataTable.Columns.Add(new DataColumn(field, typeof(string)));
+                    }
+                    
+                    
                 }
                 // for every branch  (ie feature)
                 foreach (GH_Path path in inputPolygonTree.Paths)
@@ -169,9 +181,8 @@ namespace BearGIS
                     //add each attribute for the pt's path
                     foreach (var thisAttribute in attributes.get_Branch(path))
                     {
-                        //converting all fields to (((Proper Type...?)))
-                        feature.DataRow[fields[thisIndex]] = thisAttribute.ToString(); //currently everything is a string....
-                                                                                       //<<<!!!!!!!!!! dubble chack if this is properly converting to the type declared above !!!!!!!!!!>>>\\
+                        string thisField = fields[thisIndex].Split(';')[0];
+                        feature.DataRow[thisField] = thisAttribute.ToString(); //currently everything is a string....                                                  
                         thisIndex++;
                     }
                     //finish attribute additions
