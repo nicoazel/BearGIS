@@ -127,6 +127,8 @@
   <ItemGroup>
     <Compile Include="MyCategoryIcon.cs" />
     <Compile Include="LongLatPt.cs" />
+    <Compile Include="ReadGeoJson.cs" />
+    <Compile Include="PointJSON.cs" />
     <Compile Include="PolygonSHP.cs" />
     <Compile Include="PolylineSHP.cs" />
     <Compile Include="PointSHP.cs" />
