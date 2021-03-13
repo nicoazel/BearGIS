@@ -38,7 +38,7 @@ namespace BearGIS
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("filePath", "fp", "File Path for geojson file", GH_ParamAccess.item);
+            pManager.AddTextParameter("filePath", "fp", "File Path for ESRI geojson file", GH_ParamAccess.item);
             pManager.AddBooleanParameter("readFile", "r", "set to true to read to file", GH_ParamAccess.item);
         }
 
@@ -129,8 +129,24 @@ namespace BearGIS
                     featureIndex++;
                 }//end point
 
+                else if ((string)geometry_type == "esriGeometryMultipoint")
+                {
+                    int pointIndex = 0;
+                    foreach(JArray thisMPoint in (JArray)feature["geometry"]["points"])
+                        {
+                            List<GH_Point> thisPathPoints = new List<GH_Point>();
+                            Point3d thisPoint = new Point3d((double)(JToken)thisMPoint[0], (double)(JToken)thisMPoint[1], 0);
+                            GH_Point thisGhPoint = new GH_Point(thisPoint);
+                            thisPathPoints.Add(thisGhPoint);
+                            GH_Path thisPath = new GH_Path(featureIndex, pointIndex);
+                            featureGeometry.AppendRange(thisPathPoints, thisPath);
+                            pointIndex++;
+                        }
 
-                else if ((string)geometry_type == "esriGeometryPolyline")
+                    featureIndex++;
+                }//end point
+
+                    else if ((string)geometry_type == "esriGeometryPolyline")
                 {
                     foreach (JArray pathsArray in (JArray)feature["geometry"]["paths"])
                     {

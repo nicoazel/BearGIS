@@ -29,7 +29,7 @@ namespace BearGIS
         /// </summary>
         public ReadShp()
           : base("ReadShp", "SHP-R",
-              "Reads SHP files. this actualy converts .shp to geojson, then operates as the other readers",
+              "Reads SHP files. this actualy converts .shp to geojson, then operates as the other readers. This importer uses Harlow and tends to run slower thant Dot because of the internal conversoin to json",
               "BearGIS", "Import")
         {
         }

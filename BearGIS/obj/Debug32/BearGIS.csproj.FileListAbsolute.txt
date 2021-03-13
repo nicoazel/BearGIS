@@ -15,7 +15,6 @@ D:\_11_Git\BearGIS\BearGIS\bin\DotSpatial.Projections.xml
 D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.csprojResolveAssemblyReference.cache
 D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.Properties.Resources.resources
 D:\_11_Git\BearGIS\BearGIS\obj\Debug32\BearGIS.csproj.GenerateResource.Cache
-D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\obj\Debug32\BearGIS.csprojResolveAssemblyReference.cache
 D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\obj\Debug32\BearGIS.Properties.Resources.resources
 D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\obj\Debug32\BearGIS.csproj.GenerateResource.Cache
 D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\obj\Debug32\BearGIS.dll
@@ -70,3 +69,6 @@ D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\ro\DotSpatial.Projections.Forms.re
 D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\th\DotSpatial.Projections.Forms.resources.dll
 D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\vi-VN\DotSpatial.Projections.Forms.resources.dll
 D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin\zh-CN\DotSpatial.Projections.Forms.resources.dll
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\obj\Debug32\BearGIS.csprojAssemblyReference.cache
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\obj\Debug32\BearGIS.csproj.CoreCompileInputs.cache
+D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\obj\Debug32\BearGIS.csproj.CopyComplete
