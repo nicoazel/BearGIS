@@ -35,7 +35,7 @@ This tab is for components that export geometry with attributes to GeoJson forma
 #### Point to ESRI
 - [X] this component converts Grasshopper Point to ESRI GeoJSON
 #### Point to GeoJSON
-- [ ] this component converts Grasshopper Point to GeoJSON
+- [x] this component converts Grasshopper Point to GeoJSON
 #### Multi-Point to ESRI
 - [ ] this component converts Grasshopper Point to ESRI GeoJSON
 #### Multi-Point to GeoJSON
@@ -57,7 +57,7 @@ This tab is for components that can import GeoJSON files with geometry and attri
 - [x] this component imports a ESRI formatted GeoJSON with its fields and attributes
 Multi-Part geometry is handeled with sub branches eg. Branches {A:A} & {A:B} are each part of Feature "A" and would correspond to attributes on branch {A}
 #### Import GeoJSON
-- [ ] this component imports normal GeoJSON with its fields and attributes
+- [x] this component imports normal GeoJSON with its fields and attributes
 Multi-Part geometry is handeled with sub branches eg. Branches {A:A} & {A:B} are each part of Feature "A" and would correspond to attributes on branch {A}
 
 ### Convert Tab
