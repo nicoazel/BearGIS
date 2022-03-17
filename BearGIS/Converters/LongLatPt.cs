@@ -19,7 +19,7 @@ namespace BearGIS
     public class LongLatPt : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the MyComponent1 class.
+        /// Initializes a new instance of the PolygonJSON class.
         /// </summary>
         public LongLatPt()
           : base("LongLatPt", "LL-XY",

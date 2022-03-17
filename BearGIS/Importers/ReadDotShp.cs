@@ -1,24 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-
-using GH_IO;
-using GH_IO.Serialization;
-using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-
-using DotSpatial;
-using DotSpatial.Projections;
-using DotSpatial.Positioning;
-using DotSpatial.Controls;
-using DotSpatial.Controls.Docking;
-using DotSpatial.Controls.Header;
 using DotSpatial.Data;
-using DotSpatial.Symbology;
-using DotSpatial.Topology;
 using System.Data;
 
 namespace BearGIS
@@ -26,7 +12,7 @@ namespace BearGIS
     public class ReadDotShp : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the MyComponent1 class.
+        /// Initializes a new instance of the PolygonJSON class.
         /// </summary>
         public ReadDotShp()
           : base("ReadDotShp", "DotSHP-R",
@@ -86,7 +72,7 @@ namespace BearGIS
                 foreach (var currentFeature in openSHP.Features)
                 {
 
-                    //current geature attributes
+                    //current feature attributes
                     GH_Path currentPath = new GH_Path(featureIndex);
                     var currentAttributes = currentFeature.DataRow;
                     foreach(var attr in currentAttributes.ItemArray)

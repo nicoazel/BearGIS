@@ -34,7 +34,7 @@ namespace BearGIS
     public class PointESRI : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the MyComponent1 class.
+        /// Initializes a new instance of the PolygonJSON class.
         /// </summary>
         public PointESRI()
           : base("PointESRI", "PtEsri",

@@ -1,22 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-
-using GH_IO;
-using GH_IO.Serialization;
-using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Bson;
 
 
 namespace BearGIS
@@ -24,7 +13,7 @@ namespace BearGIS
     public class ReadESRIJson : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the MyComponent1 class.
+        /// Initializes a new instance of the PolygonJSON class.
         /// </summary>
         public ReadESRIJson()
           : base("EsriJson to GH", "EsriJson-R",

@@ -34,7 +34,7 @@ namespace BearGIS
     public class PolylineSHP : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the MyComponent1 class.
+        /// Initializes a new instance of the PolygonJSON class.
         /// </summary>
         public PolylineSHP()
           : base("PolylineSHP", "Polyline-SHP-w",
