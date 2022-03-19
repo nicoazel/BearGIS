@@ -33,17 +33,17 @@ This tab is for components that export geometry with attributes to GeoJson forma
 #### Polygon to ESRI
 - [x] this component converts Grasshopper Polygons to ESRI GeoJSON
 #### Polylgon to GeoJSON
-- [ ] this component converts Grasshopper Polygons to GeoJSON
+- [x] this component converts Grasshopper Polygons to GeoJSON
 #### Polylgon to SHP
 - [X] this component converts Grasshopper Polygons to SHP
 #### Point to ESRI
 - [X] this component converts Grasshopper Point to ESRI GeoJSON
 #### Point to GeoJSON
-- [ ] this component converts Grasshopper Point to GeoJSON
+- [x] this component converts Grasshopper Point to GeoJSON
 #### Multi-Point to ESRI
-- [ ] this component converts Grasshopper Point to ESRI GeoJSON
+- [x] this component converts Grasshopper Point to ESRI GeoJSON
 #### Multi-Point to GeoJSON
-- [ ] this component converts Grasshopper Point to GeoJSON
+- [x] this component converts Grasshopper Point to GeoJSON
 #### Multi-Point to SHP
 - [X] this component converts Grasshopper Point to SHP
 
@@ -66,5 +66,12 @@ Multi-Part geometry is handeled with sub branches eg. Branches {A:A} & {A:B} are
 
 ### Convert Tab
 
-#### Lat Long to Point (EPSG)
+#### Lat Long to Point
 - [x] this component takes latatude, longatude, and desired projection system from an ESRI .prj file (ESRI WKT) and generates a point. This can be used to place refrance points or situate a base map for drawing over if refrance data is unavailable. All points are [WGS84 - World Geodetic System 1984 EPSG:4326](http://epsg.io/4326)
+
+
+#### Point Lat Lon
+- [x] this component converts a point to lat lon for geojson based on a .prj file for the points projection system. all outputes are in wsg84
+
+#### reproject
+- [x] this component converts points between two projection systems.
