@@ -8,6 +8,10 @@ Check out the plugin-page: https://nicoazel.github.io/BearGIS/
 
 Check out Demo Video: [YouTube Video](https://youtu.be/wtc19CEzHuw)
 
+See Examples: [BearGIS Example.zip](https://github.com/nicoazel/BearGIS/raw/master/docs/BearGIS Example.zip)
+
+See Forum: [BearGIS Plugin Discussion](https://discourse.mcneel.com/t/beargis-plugin-gis-data-reader-writer-shp-geojson/78602)
+
 ## Primary Functionality
 The goal of BearGIS is to develop a plugin that allows fluid exchange of GIS data into and out of grasshopper.
 
