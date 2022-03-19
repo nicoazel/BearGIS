@@ -1,33 +1,12 @@
-﻿using Rhino;
-using Rhino.Geometry;
-using Rhino.DocObjects;
-using Rhino.Collections;
-
-using GH_IO;
-using GH_IO.Serialization;
-using Grasshopper;
+﻿using Rhino.Geometry;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 //using Grasshopper.Kernel.Data.GH_Structure;
-
 using System;
-using System.IO;
 using System.Linq;
-using System.Drawing;
-using System.Reflection;
 using System.Collections;
-using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Bson;
 
 namespace BearGIS
 {

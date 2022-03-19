@@ -1,31 +1,12 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Drawing;
-using System.Reflection;
 using System.Collections;
-using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-
-using GH_IO;
-using GH_IO.Serialization;
-using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using Rhino.DocObjects;
-using Rhino.Collections;
-
-using DotSpatial;
 using DotSpatial.Projections;
-using DotSpatial.Positioning;
-using DotSpatial.Controls;
-using DotSpatial.Controls.Docking;
-using DotSpatial.Controls.Header;
 using DotSpatial.Data;
-using DotSpatial.Symbology;
 using DotSpatial.Topology;
 using System.Data;
 

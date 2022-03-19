@@ -1,33 +1,14 @@
-﻿using Rhino;
-using Rhino.Geometry;
-using Rhino.DocObjects;
-using Rhino.Collections;
-
-using GH_IO;
-using GH_IO.Serialization;
-using Grasshopper;
+﻿using Rhino.Geometry;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 //using Grasshopper.Kernel.Data.GH_Structure;
-
 using System;
-using System.IO;
 using System.Linq;
-using System.Drawing;
-using System.Reflection;
 using System.Collections;
-using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using BearGIS.Converters;
 
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Bson;
 
 namespace BearGIS
 {
@@ -89,18 +70,17 @@ namespace BearGIS
             if (!DA.GetDataList(1, fields)) return;
             if (!DA.GetDataTree(2, out attributes)) return;
             if (!DA.GetData(3, ref epsg)) return;
+
             // We should now validate the data and warn the user if invalid data is supplied.
-            //if (radius0 < 0.0){
-            //    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Inner radius must be bigger than or equal to zero");
-            //    return;}
+            if (attributes.PathCount != inputPointTree.PathCount)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "attribute branch count should be equal to geometry branch count");
+                return;
+            }
+
 
             //Create geojson dic
             Dictionary<string, Object> geoDict = new Dictionary<string, Object>();
-
-            // We're set to create the geojson now. To keep the size of the SolveInstance() method small, 
-            // The actual functionality will be in a different method:
-            //Curve spiral = CreateSpiral(plane, radius0, radius1, turns);
-
 
             //Basic esriJSON headder info
             geoDict.Add("displayFieldName", " ");
@@ -220,55 +200,8 @@ namespace BearGIS
                 //thisGeometry.Add("Points", thisPointList);
                 //above would be used for multipart
 
-                //creat attriabtrues key
-                Dictionary<string, object> thisAttribtues = new Dictionary<string, object>();
-                IList attributesBranch = attributes.get_Branch(path);
 
-                //foreach (var item in attributesBranch.Select((Value, Index) => new { Value, Index })) //this needs list not IList
-                foreach (var item in attributesBranch)
-                //for (int i = 0; i < attributesBranch.Count; i++)
-                {
-                    string thisField = fields[attributesBranch.IndexOf(item)]; //fields are string
-
-                    // ---------------------this is in order add the riight type?
-
-                    if (item is Grasshopper.Kernel.Types.GH_Integer)
-                    {
-                        string thisAttribute = item.ToString();
-                        Convert.ChangeType(thisAttribute, typeof(int));
-                        thisAttribtues.Add(thisField, thisAttribute);
-                    }
-
-                    else if (item is Grasshopper.Kernel.Types.GH_Number) // else if (typeItem is long //|| typeItem is ulong //|| typeItem is float //|| typeItem is double //|| typeItem is decimal)
-                    {
-                        string thisAttribute = item.ToString();
-                        Convert.ChangeType(thisAttribute, typeof(double));
-                        thisAttribtues.Add(thisField, thisAttribute);
-                    }
-
-                    else if (item is Grasshopper.Kernel.Types.GH_String)
-                    {
-                        string thisAttribute = item.ToString();
-                        thisAttribtues.Add(thisField, thisAttribute);
-                    }
-
-                    else if (item is Grasshopper.Kernel.Types.GH_Time)
-                    {
-                        string thisAttribute = item.ToString();
-                        Convert.ChangeType(thisAttribute, typeof(DateTime));
-                        thisAttribtues.Add(thisField, thisAttribute);
-                    }
-
-                    else
-                    {
-                        string thisAttribute = "wasent a type"; item.ToString();
-                        thisAttribtues.Add(thisField, thisAttribute);
-                    }
-
-                    // ------------------------how to add value of igh_goo verbatum....
-                    //thisAttribtues.Add(thisField, thisAttribute);
-                }
-
+                Dictionary<string, object> thisAttribtues = Converter.BuildJsonAttributes(attributes.get_Branch(path), fields);
 
                 //wrap up into feature and add to feature list;
                 Dictionary<string, Object> thisFeature = new Dictionary<string, Object>();

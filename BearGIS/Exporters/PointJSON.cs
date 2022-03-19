@@ -2,36 +2,13 @@
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
-using Rhino;
-using Rhino.Geometry;
-using Rhino.DocObjects;
-using Rhino.Collections;
-
-using GH_IO;
-using GH_IO.Serialization;
-using Grasshopper;
-using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 //using Grasshopper.Kernel.Data.GH_Structure;
 
-using System;
-using System.IO;
-using System.Linq;
-using System.Drawing;
-using System.Reflection;
 using System.Collections;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using BearGIS.Converters;
 
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Bson;
 namespace BearGIS
 {
     public class PointJSON : GH_Component
@@ -40,7 +17,7 @@ namespace BearGIS
         /// Initializes a new instance of the PolygonJSON class.
         /// </summary>
         public PointJSON()
-          : base("PointGeojson", "PtJson",
+          : base("PointGeoJSON", "PtJson",
               "Converts Points with attrbutes to GeoJson files",
               "BearGIS", "GeoJson")
         {
@@ -51,10 +28,9 @@ namespace BearGIS
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddPointParameter("PointTree", "PtTree", "points that compose the polyline organized in a tree", GH_ParamAccess.tree);
+            pManager.AddPointParameter("PointTree", "PtTree", "points organized in a tree per feature. Note:GeoJSON uses a geographic coordinate reference system, World Geodetic System 1984, and units of decimal degrees (convert coords to appropriate lat lon first!)", GH_ParamAccess.tree);
             pManager.AddTextParameter("fields", "f", "list of Fields for each geometry. This should not be a datatree but a simple list", GH_ParamAccess.list);
             pManager.AddGenericParameter("attributes", "attr", "attributes for each geometry. this should be a dataTree matching the linePoints input, and fields indicies", GH_ParamAccess.tree);
-            pManager.AddIntegerParameter("epsgCode", "epsg", "The epsg code for the spatial projection system", GH_ParamAccess.item);
             pManager.AddTextParameter("filePath", "fp", "File Path for new geojson file, sugestion: use '.json'", GH_ParamAccess.item);
             pManager.AddBooleanParameter("writeFile", "w", "set to true to write to file", GH_ParamAccess.item);
 
@@ -84,44 +60,21 @@ namespace BearGIS
             bool writeFile = false;
             string filePath = "";
             int epsg = -1;
-            if (!DA.GetData(5, ref writeFile)) return;
-            if (!DA.GetData(4, ref filePath)) return;
+            if (!DA.GetData(4, ref writeFile)) return;
+            if (!DA.GetData(3, ref filePath)) return;
             // access the input parameter by index. 
             if (!DA.GetDataTree(0, out inputPointTree)) return;
             if (!DA.GetDataList(1, fields)) return;
             if (!DA.GetDataTree(2, out attributes)) return;
-            if (!DA.GetData(3, ref epsg)) return;
-            // We should now validate the data and warn the user if invalid data is supplied.
-            //if (radius0 < 0.0){
-            //    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Inner radius must be bigger than or equal to zero");
-            //    return;}
 
             //Create geojson dic
             Dictionary<string, Object> geoDict = new Dictionary<string, Object>();
 
-            // We're set to create the geojson now. To keep the size of the SolveInstance() method small, 
-            // The actual functionality will be in a different method:
-            //Curve spiral = CreateSpiral(plane, radius0, radius1, turns);
 
-
-            //Basic esriJSON headder info
+            //Basic JSON headder info
             geoDict.Add("type", "FeatureCollection");
 
-
-
-            // package the above in a function ^^^
-            //features: [ 
-            //    {
-            //        geometry:{Paths:[ [-[x,y],[x1,y1]-], [-[x,y],[x1,y1]-]  ]
-            //        attributes:{ field:value, field1:value1}
-            //    },
-            //    {
-            //        geometry:{Paths:[ [-[x,y],[x1,y1]-], [-[x,y],[x1,y1]-]  ]
-            //        attributes:{ field:value, field1:value1}
-            //    }
-            //]
-
-            // Start of  feature construction----------------------------------------------------
+            // Start of  feature constructio.
             // create feature list
             List<Object> featuresList = new List<Object>();
 
@@ -133,6 +86,7 @@ namespace BearGIS
 
                 //create geometry key
                 Dictionary<string, object> thisGeometry = new Dictionary<string, object>();
+
                 //create coordinate list and add to path list
                 List<double> thisCoordinate = new List<double>();
 
@@ -154,62 +108,15 @@ namespace BearGIS
                 thisGeometry.Add("type", "point");
                 thisGeometry.Add("coordinates", thisCoordinate.ToString());
 
-
                 //creat attriabtrues key
-                Dictionary<string, object> thisAttribtues = new Dictionary<string, object>();
-                IList attributesBranch = attributes.get_Branch(path);
-
-                //foreach (var item in attributesBranch.Select((Value, Index) => new { Value, Index })) //this needs list not IList
-                foreach (var item in attributesBranch)
-                //for (int i = 0; i < attributesBranch.Count; i++)
-                {
-                    string thisField = fields[attributesBranch.IndexOf(item)]; //fields are string
-
-                    // ---------------------this is in order add the riight type?
-
-                    if (item is Grasshopper.Kernel.Types.GH_Integer)
-                    {
-                        string thisAttribute = item.ToString();
-                        Convert.ChangeType(thisAttribute, typeof(int));
-                        thisAttribtues.Add(thisField, thisAttribute);
-                    }
-
-                    else if (item is Grasshopper.Kernel.Types.GH_Number) // else if (typeItem is long //|| typeItem is ulong //|| typeItem is float //|| typeItem is double //|| typeItem is decimal)
-                    {
-                        string thisAttribute = item.ToString();
-                        Convert.ChangeType(thisAttribute, typeof(double));
-                        thisAttribtues.Add(thisField, thisAttribute);
-                    }
-
-                    else if (item is Grasshopper.Kernel.Types.GH_String)
-                    {
-                        string thisAttribute = item.ToString();
-                        thisAttribtues.Add(thisField, thisAttribute);
-                    }
-
-                    else if (item is Grasshopper.Kernel.Types.GH_Time)
-                    {
-                        string thisAttribute = item.ToString();
-                        Convert.ChangeType(thisAttribute, typeof(DateTime));
-                        thisAttribtues.Add(thisField, thisAttribute);
-                    }
-
-                    else
-                    {
-                        string thisAttribute = "wasent a type"; item.ToString();
-                        thisAttribtues.Add(thisField, thisAttribute);
-                    }
-
-                    // ------------------------how to add value of igh_goo verbatum....
-                    //thisAttribtues.Add(thisField, thisAttribute);
-                }
-
+                Dictionary<string, object> thisAttribtues = Converter.BuildJsonAttributes(attributes.get_Branch(path), fields);
 
                 //wrap up into feature and add to feature list;
                 Dictionary<string, Object> thisFeature = new Dictionary<string, Object>();
-
-                thisFeature.Add("geometry", thisGeometry);
+                thisFeature.Add("type", "Feature");
                 thisFeature.Add("properties", thisAttribtues);
+                thisFeature.Add("geometry", thisGeometry);
+
                 featuresList.Add(thisFeature);
             }//end of each branch path
 

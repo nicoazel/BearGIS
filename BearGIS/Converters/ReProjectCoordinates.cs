@@ -6,14 +6,14 @@ using DotSpatial.Projections;
 
 namespace BearGIS
 {
-    public class LongLatPt : GH_Component
+    public class ReProjectCoordinates : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the PolygonJSON class.
         /// </summary>
-        public LongLatPt()
-          : base("LongLatPT", "LL-XY",
-              "This component provides the xy location of a given Lat Long coordinates and .Proj file of source coordinates",
+        public ReProjectCoordinates()
+          : base("ReProject", "ReProj",
+              "This component converts coordinates from one projection system to another",
               "BearGIS", "projection")
         {
         }
@@ -23,9 +23,10 @@ namespace BearGIS
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("Longatude", "Long", "Longatude of desired xy point", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Latatude", "Lat", "Latatude of desired xy point", GH_ParamAccess.item);
-            pManager.AddTextParameter("PrjfilePath", "prj", "File Path of the.Proj File representing the source coordinate system", GH_ParamAccess.item);
+            pManager.AddNumberParameter("X_Longatude", "XLong", "Longatude of desired xy point", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Y_Latatude", "YLat", "Latatude of desired xy point", GH_ParamAccess.item);
+            pManager.AddTextParameter("SourcePrj", "SPrj", "File Path of the source projection '.Prj' File representing the source coordinate system", GH_ParamAccess.item);
+            pManager.AddTextParameter("targetPrj", "TPprj", "File Path of the target projection '.Prj' File representing the target output coordinate system", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,21 +45,27 @@ namespace BearGIS
         {
             double lng = 0;
             double lat = 0;
-            string fp = "";
+            string sourceFilePath = "";
+            string targetFilePath = "";
 
             if (!DA.GetData(0, ref lng)) return;
             if (!DA.GetData(1, ref lat)) return;
-            if (!DA.GetData(2, ref fp)) return;
+            if (!DA.GetData(2, ref sourceFilePath)) return;
+            if (!DA.GetData(3, ref targetFilePath)) return;
 
             //load projection file
-            string cur_proj = System.IO.File.ReadAllText(@fp);
+            string cur_proj = System.IO.File.ReadAllText(@sourceFilePath);
 
             ///Starting projection
-            ProjectionInfo targetProjection = new ProjectionInfo();
-            targetProjection.ParseEsriString(cur_proj);
+            ProjectionInfo sourceProjection = new ProjectionInfo();
+            sourceProjection.ParseEsriString(cur_proj);
 
+
+            //load projection file
+            string tar_proj = System.IO.File.ReadAllText(@targetFilePath);
             //ending projection
-            ProjectionInfo sourceProjection = KnownCoordinateSystems.Geographic.World.WGS1984;
+            ProjectionInfo targetProjection = new ProjectionInfo();
+            targetProjection.ParseEsriString(tar_proj);
 
             int len = 1;
             double[] z = new double[] { 0 };
@@ -90,7 +97,7 @@ namespace BearGIS
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("7a7e0dea-6b8f-4918-bc67-2dd09328909d"); }
+            get { return new Guid("08C97FAF-71C3-4683-9F40-8289112E0D2D"); }
         }
     }
 }

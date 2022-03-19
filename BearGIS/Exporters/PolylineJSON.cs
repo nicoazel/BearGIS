@@ -9,14 +9,14 @@ using Rhino.Geometry;
 
 namespace BearGIS.Exporters
 {
-    public class PolygonJSON : GH_Component
+    public class PolylineJSON : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the PolygonJSON class.
         /// </summary>
-        public PolygonJSON()
-            : base("PolygonGeoJSON", "PolygonJSON",
-                "Convert grasshopper polygons to geojson polygons. ",
+        public PolylineJSON()
+            : base("PolylineGeoJSON", "PolylineJSON",
+                "Convert grasshopper polylines to geojson linestrings. ",
                 "BearGIS", "GeoJson")
         {
         }
@@ -28,7 +28,7 @@ namespace BearGIS.Exporters
         {
             // Use the pManager object to register your input parameters.
             // You can often supply default values when creating parameters.
-            pManager.AddCurveParameter("polygonTree", "plTree", "Polygons organized in a tree. Note:GeoJSON uses a geographic coordinate reference system, World Geodetic System 1984, and units of decimal degrees (convert coords to appropriate lat lon first!)", GH_ParamAccess.tree);
+            pManager.AddCurveParameter("polylineTree", "plTree", "Polylines organized in a tree. Note:GeoJSON uses a geographic coordinate reference system, World Geodetic System 1984, and units of decimal degrees (convert coords to appropriate lat lon first!)", GH_ParamAccess.tree);
             pManager.AddTextParameter("fields", "f", "list of Fields for each geometry. This should not be a datatree but a simple list", GH_ParamAccess.list);
             pManager.AddGenericParameter("attributes", "attr", "attributes for each geometry. this should be a dataTree matching the linePoints input, and fields indicies", GH_ParamAccess.tree);
             pManager.AddTextParameter("filePath", "fp", "File Path for new geojson file, sugestion: use '.json'", GH_ParamAccess.item);
@@ -66,13 +66,20 @@ namespace BearGIS.Exporters
             if (!DA.GetDataList(1, fields)) return;
             if (!DA.GetDataTree(2, out attributes)) return;
 
+            // We should now validate the data and warn the user if invalid data is supplied.
+            if (attributes.PathCount != inputCurveTree.PathCount)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "attribute branch count should be equal to geometry branch count");
+                return;
+            }
+
             //Create geojson dic
             Dictionary<string, Object> geoDict = new Dictionary<string, Object>();
 
             //Basic JSON headder info
             geoDict.Add("type", "FeatureCollection");
 
-            // Start of  feature constructio.
+            // Start of  feature construction.
             // create feature list
             List<Object> featuresList = new List<Object>();
 
@@ -84,14 +91,12 @@ namespace BearGIS.Exporters
 
                 //create geometry key
                 Dictionary<string, object> thisGeometry = new Dictionary<string, object>();
-                thisGeometry.Add("type", "MultiPolygon");
+                thisGeometry.Add("type", "LineString");
 
-                List<object> thisPaths = new List<object>();
+                List<object> thisPath = new List<object>();
                 // for every curve  in branch
                 foreach (GH_Curve thisGhCurve in branch)
                 {
-                    List<List<double>> thisPath = new List<List<double>>();
-
                     //convert to rhino curve
                     Curve rhinoCurve = null;
                     GH_Convert.ToCurve(thisGhCurve, ref rhinoCurve, 0);
@@ -109,14 +114,10 @@ namespace BearGIS.Exporters
                         thisPath.Add(thisCoordinate); //[x,y]
                     }//end each control point
 
-                    //add repeat first point at end
-                    thisPath.Add(thisPath[0]);
-
-                    //add this path or paths
-                    thisPaths.Add(thisPath);
                 }//end of each curve in branch
+
                 //add all paths to geometry key for this feature
-                thisGeometry.Add("coordinates", new List<List<object>>(){thisPaths});
+                thisGeometry.Add("coordinates", thisPath);
 
                 Dictionary<string, object> thisAttribtues = Converter.BuildJsonAttributes(attributes.get_Branch(path), fields);
                 //wrap up into feature and add to feature list;
@@ -165,7 +166,7 @@ namespace BearGIS.Exporters
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("d9070c62-55d8-4810-86d5-40d91fefbc6f"); }
+            get { return new Guid("9FA9F1A2-6028-4319-9025-D3D156799C23"); }
         }
     }
 }

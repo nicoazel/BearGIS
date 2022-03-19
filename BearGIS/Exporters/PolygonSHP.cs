@@ -1,36 +1,20 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Drawing;
-using System.Reflection;
 using System.Collections;
-using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-
-using GH_IO;
-using GH_IO.Serialization;
-using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
-using Rhino.DocObjects;
-using Rhino.Collections;
-
-using DotSpatial;
 using DotSpatial.Projections;
-using DotSpatial.Positioning;
-using DotSpatial.Controls;
-using DotSpatial.Controls.Docking;
-using DotSpatial.Controls.Header;
 using DotSpatial.Data;
-using DotSpatial.Symbology;
 using DotSpatial.Topology;
 using System.Data;
 
 namespace BearGIS
 {
+    /// <summary>
+    /// Exports Grasshopper Geometry as a Polygon .shp
+    /// </summary>
     public class PolygonSHP : GH_Component
     {
         /// <summary>
@@ -179,7 +163,7 @@ namespace BearGIS
                     IList<string> featrueAttributes = attributes.get_Branch(path) as IList<string>;
                     int thisIndex = 0;
                     //add each attribute for the pt's path
-                    foreach (var thisAttribute in featrueAttributes)
+                    foreach (var thisAttribute in attributes.get_Branch(path))
                     {
                         string thisField = fields[thisIndex].Split(';')[0];
                         feature.DataRow[thisField] = thisAttribute.ToString(); //currently everything is a string....                                                  

@@ -125,6 +125,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BuildJsonAttributes.cs" />
+    <Compile Include="Converters\ReProjectCoordinates.cs" />
+    <Compile Include="Converters\PtLongLat.cs" />
+    <Compile Include="Exporters\PolylineJSON.cs" />
     <Compile Include="Exporters\PolygonJSON.cs" />
     <Compile Include="MyCategoryIcon.cs" />
     <Compile Include="Converters\LongLatPt.cs" />
