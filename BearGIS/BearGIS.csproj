@@ -125,24 +125,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BuildJsonAttributes.cs" />
+    <Compile Include="Converters\ReProjectCoordinates.cs" />
+    <Compile Include="Converters\PtLongLat.cs" />
+    <Compile Include="Exporters\PolylineJSON.cs" />
+    <Compile Include="Exporters\PolygonJSON.cs" />
     <Compile Include="MyCategoryIcon.cs" />
-    <Compile Include="LongLatPt.cs" />
-    <Compile Include="ReadGeoJson.cs" />
-    <Compile Include="PointJSON.cs" />
-    <Compile Include="PolygonSHP.cs" />
-    <Compile Include="PolylineSHP.cs" />
-    <Compile Include="PointSHP.cs" />
-    <Compile Include="ReadDotShp.cs" />
-    <Compile Include="ReadShp.cs" />
-    <Compile Include="PointESRI.cs" />
-    <Compile Include="PolygonESRI.cs" />
+    <Compile Include="Converters\LongLatPt.cs" />
+    <Compile Include="Importers\ReadGeoJson.cs" />
+    <Compile Include="Exporters\PointJSON.cs" />
+    <Compile Include="Exporters\PolygonSHP.cs" />
+    <Compile Include="Exporters\PolylineSHP.cs" />
+    <Compile Include="Exporters\PointSHP.cs" />
+    <Compile Include="Importers\ReadDotShp.cs" />
+    <Compile Include="Importers\ReadShp.cs" />
+    <Compile Include="Exporters\PointESRI.cs" />
+    <Compile Include="Exporters\PolygonESRI.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ReadESRIJson.cs" />
-    <Compile Include="PolyLineESRI.cs" />
+    <Compile Include="Importers\ReadESRIJson.cs" />
+    <Compile Include="Exporters\PolyLineESRI.cs" />
     <Compile Include="BearGISInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -178,6 +183,7 @@
   <ItemGroup>
     <None Include="Resources\BearGISIconSet-20.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

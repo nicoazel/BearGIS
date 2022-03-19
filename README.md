@@ -8,6 +8,10 @@ Check out the plugin-page: https://nicoazel.github.io/BearGIS/
 
 Check out Demo Video: [YouTube Video](https://youtu.be/wtc19CEzHuw)
 
+See Examples: [BearGIS Example.zip](https://github.com/nicoazel/BearGIS/raw/master/docs/BearGIS Example.zip)
+
+See Forum: [BearGIS Plugin Discussion](https://discourse.mcneel.com/t/beargis-plugin-gis-data-reader-writer-shp-geojson/78602)
+
 ## Primary Functionality
 The goal of BearGIS is to develop a plugin that allows fluid exchange of GIS data into and out of grasshopper.
 
@@ -29,7 +33,7 @@ This tab is for components that export geometry with attributes to GeoJson forma
 #### Polygon to ESRI
 - [x] this component converts Grasshopper Polygons to ESRI GeoJSON
 #### Polylgon to GeoJSON
-- [ ] this component converts Grasshopper Polygons to GeoJSON
+- [x] this component converts Grasshopper Polygons to GeoJSON
 #### Polylgon to SHP
 - [X] this component converts Grasshopper Polygons to SHP
 #### Point to ESRI
@@ -37,9 +41,9 @@ This tab is for components that export geometry with attributes to GeoJson forma
 #### Point to GeoJSON
 - [x] this component converts Grasshopper Point to GeoJSON
 #### Multi-Point to ESRI
-- [ ] this component converts Grasshopper Point to ESRI GeoJSON
+- [x] this component converts Grasshopper Point to ESRI GeoJSON
 #### Multi-Point to GeoJSON
-- [ ] this component converts Grasshopper Point to GeoJSON
+- [x] this component converts Grasshopper Point to GeoJSON
 #### Multi-Point to SHP
 - [X] this component converts Grasshopper Point to SHP
 
@@ -62,5 +66,12 @@ Multi-Part geometry is handeled with sub branches eg. Branches {A:A} & {A:B} are
 
 ### Convert Tab
 
-#### Lat Long to Point (EPSG)
+#### Lat Long to Point
 - [x] this component takes latatude, longatude, and desired projection system from an ESRI .prj file (ESRI WKT) and generates a point. This can be used to place refrance points or situate a base map for drawing over if refrance data is unavailable. All points are [WGS84 - World Geodetic System 1984 EPSG:4326](http://epsg.io/4326)
+
+
+#### Point Lat Lon
+- [x] this component converts a point to lat lon for geojson based on a .prj file for the points projection system. all outputes are in wsg84
+
+#### reproject
+- [x] this component converts points between two projection systems.

@@ -18,7 +18,7 @@ namespace BearGIS
             get
             {
                 //Return a 24x24 pixel bitmap to represent this GHA library.
-                return null;
+                return BearGIS.Properties.Resources.BearGISIconSet_20;
             }
         }
         public override string Description
@@ -26,7 +26,7 @@ namespace BearGIS
             get
             {
                 //Return a short string describing the purpose of this GHA library.
-                return "";
+                return "Bear GIS is a plugin for reading and writing gis data";
             }
         }
         public override Guid Id
@@ -42,7 +42,7 @@ namespace BearGIS
             get
             {
                 //Return a string identifying you or your company.
-                return "";
+                return "Nicolas Azel";
             }
         }
         public override string AuthorContact
@@ -50,7 +50,7 @@ namespace BearGIS
             get
             {
                 //Return a string representing your preferred contact details.
-                return "";
+                return "nico";
             }
         }
     }
