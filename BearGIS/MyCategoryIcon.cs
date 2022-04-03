@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BearGIS
+﻿namespace BearGIS
 {
     public class MyCategoryIcon : Grasshopper.Kernel.GH_AssemblyPriority
     {

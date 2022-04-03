@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Reflection;
 using Grasshopper.Kernel;
 
 namespace BearGIS
@@ -50,7 +51,15 @@ namespace BearGIS
             get
             {
                 //Return a string representing your preferred contact details.
-                return "nico";
+                return "nicoazel.github.io/BearGIS/";
+            }
+        }
+
+        public override string Version
+        {
+            get
+            {
+                return "1.0.1.6";
             }
         }
     }
