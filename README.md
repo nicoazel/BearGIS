@@ -25,7 +25,7 @@ This tab is for components that export geometry with attributes to GeoJson forma
 #### Polyline to ESRI
 - [x] this component converts Grasshopper Polylines to ESRI GeoJSON
 #### Polyline to GeoJSON
-- [ ] this component converts Grasshopper Polylines to GeoJSON
+- [X] this component converts Grasshopper Polylines to GeoJSON
 #### Polyline to SHP
 - [X] this component converts Grasshopper Polylines to SHP
 #### Polygon to ESRI
