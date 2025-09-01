@@ -106,7 +106,7 @@ namespace BearGIS
                 }//end of each point in branch
 
                 thisGeometry.Add("type", "point");
-                thisGeometry.Add("coordinates", thisCoordinate.ToString());
+                thisGeometry.Add("coordinates", thisCoordinate);
 
                 //creat attriabtrues key
                 Dictionary<string, object> thisAttribtues = Converter.BuildJsonAttributes(attributes.get_Branch(path), fields);

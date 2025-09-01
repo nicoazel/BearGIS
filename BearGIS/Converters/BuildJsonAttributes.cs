@@ -26,14 +26,12 @@ namespace BearGIS.Converters
                 if (item is Grasshopper.Kernel.Types.GH_Integer)
                 {
                     string thisAttribute = item.ToString();
-                    Convert.ChangeType(thisAttribute, typeof(int));
                     thisAttribtues.Add(thisField, thisAttribute);
                 }
 
-                else if (item is Grasshopper.Kernel.Types.GH_Number) // else if (typeItem is long //|| typeItem is ulong //|| typeItem is float //|| typeItem is double //|| typeItem is decimal)
+                else if (item is Grasshopper.Kernel.Types.GH_Number)
                 {
                     string thisAttribute = item.ToString();
-                    Convert.ChangeType(thisAttribute, typeof(double));
                     thisAttribtues.Add(thisField, thisAttribute);
                 }
 
@@ -46,7 +44,6 @@ namespace BearGIS.Converters
                 else if (item is Grasshopper.Kernel.Types.GH_Time)
                 {
                     string thisAttribute = item.ToString();
-                    Convert.ChangeType(thisAttribute, typeof(DateTime));
                     thisAttribtues.Add(thisField, thisAttribute);
                 }
 
