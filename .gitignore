@@ -145,3 +145,4 @@ StyleCop.Cache
 ## Other IDE artifacts
 *.svclog
 *.sln.ide
+BearGIS/obj/Debug32/DesignTimeResolveAssemblyReferencesInput.cache
