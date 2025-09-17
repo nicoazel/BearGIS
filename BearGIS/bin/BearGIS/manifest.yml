@@ -1,7 +1,0 @@
----
-name: BearGIS
-version: 1.0.1.6
-authors:
-- Nicolas Azel
-description: Bear GIS is a plugin for reading and writing gis data
-url: nicoazel.github.io/BearGIS/

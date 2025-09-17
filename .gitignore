@@ -146,3 +146,4 @@ StyleCop.Cache
 *.svclog
 *.sln.ide
 BearGIS/obj/Debug32/DesignTimeResolveAssemblyReferencesInput.cache
+.vs/BearGIS_Solution/v14/.suo
