@@ -1,12 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Drawing;
-using System.Reflection;
 using System.Collections;
-using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 using GH_IO;
 using GH_IO.Serialization;

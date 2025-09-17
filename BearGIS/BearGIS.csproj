@@ -1,129 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug32</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
+
     <ProjectGuid>{703C97F4-6606-4D85-993C-1CF0A90E6D19}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+
     <RootNamespace>BearGIS</RootNamespace>
     <AssemblyName>BearGIS</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkProfile />
+    <Platforms>AnyCPU</Platforms>
+    <UseWindowsForms>true</UseWindowsForms>
+    <TargetFrameworks>net7.0-windows;net48</TargetFrameworks>
+    <RestoreTargetFrameworks>net7.0-windows;net48</RestoreTargetFrameworks>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+
+    <BaseOutputPath>D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin</BaseOutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug32|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <!-- Debugging: launch correct Rhino per target -->
+  <PropertyGroup Condition="'$(TargetFramework)'=='net48'">
+    <StartProgram>C:\Program Files\Rhino 7\System\Rhino.exe</StartProgram>
+    <DefineConstants>$(DefineConstants);RHINO7;NETFRAMEWORK</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug64|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net7.0-windows'">
+    <StartProgram>C:\Program Files\Rhino 8\System\Rhino.exe</StartProgram>
+    <DefineConstants>$(DefineConstants);RHINO8;NET7</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="DotSpatial.Controls, Version=1.9.0.0, Culture=neutral, PublicKeyToken=4d9e49339a7d240c, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Controls.1.9\lib\net40-Client\DotSpatial.Controls.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Data, Version=1.9.0.0, Culture=neutral, PublicKeyToken=c29dbf30e059ca9d, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Data.1.9\lib\net40-Client\DotSpatial.Data.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Data.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=53ab5a198378d4c1, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Data.Forms.1.7\lib\net40-Client\DotSpatial.Data.Forms.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Extensions, Version=1.7.0.0, Culture=neutral, PublicKeyToken=4d9e49339a7d240c, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Extensions.1.7\lib\net40-Client\DotSpatial.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Modeling.Forms, Version=0.11.9.6, Culture=neutral, PublicKeyToken=712bef29a31a9354, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Modeling.Forms.1.0.0.0\lib\net40-Client\DotSpatial.Modeling.Forms.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Mono, Version=1.5.0.0, Culture=neutral, PublicKeyToken=425ba4de41127026, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Mono.1.5.1\lib\net40\DotSpatial.Mono.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Positioning, Version=1.9.0.0, Culture=neutral, PublicKeyToken=f6f66d1554473068, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Positioning.1.9\lib\net40-Client\DotSpatial.Positioning.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Projections, Version=1.9.0.0, Culture=neutral, PublicKeyToken=272632bddd08a38b, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Projections.1.9\lib\net40-Client\DotSpatial.Projections.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Projections.Forms, Version=1.9.0.0, Culture=neutral, PublicKeyToken=52099474f11b7ff0, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Projections.Forms.1.9\lib\net40-Client\DotSpatial.Projections.Forms.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Serialization, Version=0.11.9.6, Culture=neutral, PublicKeyToken=441f200f827611e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Serialization.1.0.0.0\lib\net40-Client\DotSpatial.Serialization.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Symbology, Version=1.7.0.0, Culture=neutral, PublicKeyToken=6178c08da7998387, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Symbology.1.7\lib\net40-Client\DotSpatial.Symbology.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Symbology.Forms, Version=0.11.9.6, Culture=neutral, PublicKeyToken=0544cdeefb662382, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Symbology.Forms.1.0.0.0\lib\net40\DotSpatial.Symbology.Forms.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Topology, Version=1.9.0.0, Culture=neutral, PublicKeyToken=a66b5e9434ca3671, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotSpatial.Topology.1.9\lib\net40-Client\DotSpatial.Topology.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Harlow, Version=0.5.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Harlow.0.6.0\lib\net45\Harlow.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="RhinoCommon">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>c:\Program Files (x86)\Rhinoceros 5\System\rhinocommon.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+
+ <!-- Copy .dll to .gha after build (keeps the .dll as well) -->
+  <Target Name="AfterBuild" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(OutputPath)$(AssemblyName).gha" />
+  </Target>
+
+  <!-- net48: Rhino 7 via NuGet packages; DotSpatial 3.x; keep Harlow for now -->
+  <ItemGroup Condition="'$(TargetFramework)'=='net48'">
+    <PackageReference Include="RhinoCommon" Version="7.*" />
+    <PackageReference Include="Grasshopper" Version="7.*" />
+
+    <!-- DotSpatial 3.x line (for .NET Framework). -->
+    <PackageReference Include="DotSpatial.Controls" Version="3.0.1" />
+    <PackageReference Include="DotSpatial.Data" Version="3.0.1" />
+    <PackageReference Include="DotSpatial.Data.Forms" Version="3.0.1" />
+    <PackageReference Include="DotSpatial.Extensions" Version="3.0.1" />
+    <PackageReference Include="DotSpatial.Modeling.Forms" Version="3.0.1" />
+    <PackageReference Include="DotSpatial.Positioning" Version="3.0.1" />
+    <PackageReference Include="DotSpatial.Projections" Version="3.0.1" />
+    <PackageReference Include="DotSpatial.Projections.Forms" Version="3.0.1" />
+    <PackageReference Include="DotSpatial.Serialization" Version="3.0.1" />
+    <PackageReference Include="DotSpatial.Symbology" Version="3.0.1" />
+    <PackageReference Include="DotSpatial.Symbology.Forms" Version="3.0.1" />
+    <!-- DotSpatial.Topology removed in v3+; code will be migrated to NTS equivalents. -->
+
+    <PackageReference Include="Newtonsoft.Json" Version="13.*" />
+    <!-- Retain Harlow only on net48; will be removed/replaced for net7 -->
+    <PackageReference Include="Harlow" Version="0.6.0" />
+  </ItemGroup>
+
+  <!-- net7: Rhino 8 via NuGet for RhinoCommon; reference Grasshopper from install; DotSpatial 4.x -->
+  <ItemGroup Condition="'$(TargetFramework)'=='net7.0-windows'">
+
+    <PackageReference Include="RhinoCommon" Version="8.*" />
     <Reference Include="Grasshopper">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Common Files\McNeel\Rhinoceros\5.0\Plug-ins\Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)\0.9.76.0\Grasshopper.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\Rhino 8\Plug-ins\Grasshopper\Grasshopper.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="GH_IO">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Common Files\McNeel\Rhinoceros\5.0\Plug-ins\Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)\0.9.76.0\GH_IO.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\Program Files\Rhino 8\Plug-ins\Grasshopper\GH_IO.dll</HintPath>
+      <Private>false</Private>
     </Reference>
+
+    <!-- DotSpatial 4.x line (targets .NET 6/7, compatible with net7.0-windows) -->
+    <PackageReference Include="DotSpatial.Data" Version="4.0.*" />
+    <PackageReference Include="DotSpatial.Data.Forms" Version="4.0.*" />
+    <PackageReference Include="DotSpatial.Extensions" Version="4.0.*" />
+    <PackageReference Include="DotSpatial.Modeling.Forms" Version="4.0.*" />
+    <PackageReference Include="DotSpatial.Positioning" Version="4.0.*" />
+    <PackageReference Include="DotSpatial.Projections" Version="4.0.*" />
+    <PackageReference Include="DotSpatial.Projections.Forms" Version="4.0.*" />
+    <PackageReference Include="DotSpatial.Serialization" Version="4.0.*" />
+    <PackageReference Include="DotSpatial.Symbology" Version="4.0.*" />
+    <PackageReference Include="DotSpatial.Symbology.Forms" Version="4.0.*" />
+    <!-- Do NOT include Harlow on net7 -->
   </ItemGroup>
+
+
   <ItemGroup>
     <Compile Include="Converters\BuildJsonAttributes.cs" />
     <Compile Include="Converters\ReProjectCoordinates.cs" />
@@ -141,76 +105,60 @@
     <Compile Include="Importers\ReadShp.cs" />
     <Compile Include="Exporters\PointESRI.cs" />
     <Compile Include="Exporters\PolygonESRI.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Importers\ReadESRIJson.cs" />
     <Compile Include="Exporters\PolyLineESRI.cs" />
     <Compile Include="BearGISInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="packages.config" />
+
+
+  <!-- Temporarily exclude files that rely on DotSpatial.Topology from net7 while migrating to NTS -->
+  <ItemGroup Condition="'$(TargetFramework)'=='net7.0-windows'">
+    <Compile Remove="Exporters\PointSHP.cs" />
+    <Compile Remove="Exporters\PolylineSHP.cs" />
+    <Compile Remove="Exporters\PolygonSHP.cs" />
+    <Compile Remove="Importers\ReadDotShp.cs" />
+    <Compile Remove="Importers\ReadShp.cs" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net48'">
+    <None Include="app.config" />
+  </ItemGroup>
+
+
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
+
   <ItemGroup>
     <None Include="Resources\BearGISIconSet-14.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\BearGISIconSet-15.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\BearGISIconSet-16.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\BearGISIconSet-17.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\BearGISIconSet-18.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\BearGISIconSet-19.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\BearGISIconSet-20.png" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <PropertyGroup>
-    <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"
-Erase "$(TargetPath)"</PostBuildEvent>
+
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net48'">
+    <StartProgram>C:\Program Files\Rhino 7\System\Rhino.exe</StartProgram>
+    <DefineConstants>$(DefineConstants);RHINO7;NETFRAMEWORK</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug32|AnyCPU' ">
-    <StartArguments>
-    </StartArguments>
-    <StartAction>Program</StartAction>
-    <StartProgram>c:\Program Files (x86)\Rhinoceros 5\System\Rhino4.exe</StartProgram>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <FallbackCulture>en-US</FallbackCulture>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug64|AnyCPU'">
-    <StartProgram>c:\Program Files\Rhinoceros 5 (64-bit)\System\Rhino.exe</StartProgram>
-    <StartArguments>
-    </StartArguments>
-    <StartAction>Program</StartAction>
-    <Prefer32Bit>false</Prefer32Bit>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net7.0-windows'">
+    <StartProgram>C:\Program Files\Rhino 8\System\Rhino.exe</StartProgram>
+    <DefineConstants>$(DefineConstants);RHINO8;NET7</DefineConstants>
   </PropertyGroup>
 </Project>

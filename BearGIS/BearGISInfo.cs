@@ -59,7 +59,7 @@ namespace BearGIS
         {
             get
             {
-                return "1.0.1.6";
+                return "1.0.2.1";
             }
         }
     }
