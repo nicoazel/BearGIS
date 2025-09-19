@@ -18,23 +18,132 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 
     <BaseOutputPath>D:\_11_Git\BearGIS\BearGIS Plugin\BearGIS\bin</BaseOutputPath>
+
+    <!-- Avoid duplicate compile and resource items -->
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+
   </PropertyGroup>
+
+
+
+
+
+<PropertyGroup>
+  <!-- Destination: a dedicated subfolder keeps things tidy -->
+  <GrasshopperLibrariesDir>$(APPDATA)\Grasshopper\Libraries\BearGIS\BearGIS</GrasshopperLibrariesDir>
+</PropertyGroup>
+
+<!-- Copy for net7.0-windows (Rhino 8) -->
+<Target Name="DeployToGrasshopper_net7"
+        AfterTargets="Build"
+        Condition="'$(TargetFramework)'=='net7.0-windows'">
+  <PropertyGroup>
+    <GhaOut>$(OutputPath)$(AssemblyName).gha</GhaOut>
+    <GhaDestDir>$(GrasshopperLibrariesDir)</GhaDestDir>
+    <GhaDest>$(GhaDestDir)\$(AssemblyName).gha</GhaDest>
+  </PropertyGroup>
+
+  <!-- Ensure destination exists -->
+  <MakeDir Directories="$(GhaDestDir)" />
+
+  <!-- Build .gha next to outputs -->
+  <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(GhaOut)" OverwriteReadOnlyFiles="true" />
+
+  <!-- Gather dependencies that live copy-local in the output folder -->
+  <ItemGroup>
+    <!-- Everything copy-local MSBuild resolved (NuGet/runtime deps, not the project's own dll) -->
+    <LocalDeps Include="@(ReferenceCopyLocalPaths)" />
+    <!-- Also include any additional DLLs produced or dropped into the output (but not the main .dll) -->
+    <LocalDlls Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(AssemblyName).dll" />
+    <!-- Satellite assemblies (localizations) -->
+    <SatDeps Include="@(ReferenceSatellitePaths)" />
+    <!-- Native copy-local items (e.g., .dll/.pdb native) -->
+    <NativeDeps Include="@(NativeCopyLocalItems)" />
+    <!-- Runtime config / deps manifests for .NET runtime binding if present -->
+    <RuntimeManifests Include="$(OutputPath)*.runtimeconfig.json;$(OutputPath)*.deps.json" />
+    <!-- Optional: symbols for easier debugging in Rhino -->
+    <Pdbs Include="$(OutputPath)*.pdb" />
+  </ItemGroup>
+
+  <!-- Copy the plugin -->
+  <Copy SourceFiles="$(GhaOut)" DestinationFiles="$(GhaDest)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" />
+
+  <!-- Copy dependencies (skip unchanged keeps it fast) -->
+  <Copy SourceFiles="@(LocalDeps);@(LocalDlls);@(SatDeps);@(NativeDeps);@(RuntimeManifests)"
+        DestinationFolder="$(GhaDestDir)\"
+        SkipUnchangedFiles="true"
+        OverwriteReadOnlyFiles="true" />
+
+  <!-- Optional: copy PDBs -->
+  <Copy SourceFiles="@(Pdbs)" DestinationFolder="$(GhaDestDir)\"
+        SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Condition=" '@(Pdbs)' != '' " />
+
+  <Message Importance="high" Text="BearGIS net7 deployed: $(GhaDest)" />
+</Target>
+
+<!-- Copy for net48 (Rhino 7) -->
+<Target Name="DeployToGrasshopper_net48"
+        AfterTargets="Build"
+        Condition="'$(TargetFramework)'=='net48'">
+  <PropertyGroup>
+    <GhaOut>$(OutputPath)$(AssemblyName).gha</GhaOut>
+    <GhaDestDir>$(GrasshopperLibrariesDir)</GhaDestDir>
+    <GhaDest>$(GhaDestDir)\$(AssemblyName).gha</GhaDest>
+  </PropertyGroup>
+
+  <MakeDir Directories="$(GhaDestDir)" />
+  <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(GhaOut)" OverwriteReadOnlyFiles="true" />
+
+  <ItemGroup>
+    <LocalDeps Include="@(ReferenceCopyLocalPaths)" />
+    <LocalDlls Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(AssemblyName).dll" />
+    <SatDeps Include="@(ReferenceSatellitePaths)" />
+    <NativeDeps Include="@(NativeCopyLocalItems)" />
+    <Pdbs Include="$(OutputPath)*.pdb" />
+  </ItemGroup>
+
+  <Copy SourceFiles="$(GhaOut)" DestinationFiles="$(GhaDest)"
+        SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" />
+
+  <Copy SourceFiles="@(LocalDeps);@(LocalDlls);@(SatDeps);@(NativeDeps)"
+        DestinationFolder="$(GhaDestDir)\"
+        SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" />
+
+  <Copy SourceFiles="@(Pdbs)" DestinationFolder="$(GhaDestDir)\"
+        SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Condition=" '@(Pdbs)' != '' " />
+
+  <Message Importance="high" Text="BearGIS net48 deployed: $(GhaDest)" />
+</Target>
+
+
+
+
+
+
+
 
   <!-- Debugging: launch correct Rhino per target -->
   <PropertyGroup Condition="'$(TargetFramework)'=='net48'">
+    <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files\Rhino 7\System\Rhino.exe</StartProgram>
+    <!-- Optional: auto-open Grasshopper -->
+    <StartArguments>-runscript:"_Grasshopper _Enter"</StartArguments>
     <DefineConstants>$(DefineConstants);RHINO7;NETFRAMEWORK</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)'=='net7.0-windows'">
+    <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files\Rhino 8\System\Rhino.exe</StartProgram>
+    <!-- Optional: auto-open Grasshopper -->
+    <StartArguments>-runscript:"_Grasshopper _Enter"</StartArguments>
     <DefineConstants>$(DefineConstants);RHINO8;NET7</DefineConstants>
   </PropertyGroup>
 
- <!-- Copy .dll to .gha after build (keeps the .dll as well) -->
-  <Target Name="AfterBuild" AfterTargets="Build">
-    <Copy SourceFiles="$(TargetPath)" DestinationFiles="$(OutputPath)$(AssemblyName).gha" />
-  </Target>
+  <!-- Post-build event so it's visible in VS Properties panel -->
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
 
   <!-- net48: Rhino 7 via NuGet packages; DotSpatial 3.x; keep Harlow for now -->
   <ItemGroup Condition="'$(TargetFramework)'=='net48'">
@@ -53,11 +162,13 @@
     <PackageReference Include="DotSpatial.Serialization" Version="3.0.1" />
     <PackageReference Include="DotSpatial.Symbology" Version="3.0.1" />
     <PackageReference Include="DotSpatial.Symbology.Forms" Version="3.0.1" />
-    <!-- DotSpatial.Topology removed in v3+; code will be migrated to NTS equivalents. -->
 
     <PackageReference Include="Newtonsoft.Json" Version="13.*" />
-    <!-- Retain Harlow only on net48; will be removed/replaced for net7 -->
     <PackageReference Include="Harlow" Version="0.6.0" />
+
+    <!-- NTS for net48 as well to keep API consistent where used -->
+    <PackageReference Include="NetTopologySuite" Version="2.6.0" />
+    <PackageReference Include="NetTopologySuite.Features" Version="2.2.0" />
   </ItemGroup>
 
   <!-- net7: Rhino 8 via NuGet for RhinoCommon; reference Grasshopper from install; DotSpatial 4.x -->
@@ -84,10 +195,19 @@
     <PackageReference Include="DotSpatial.Serialization" Version="4.0.*" />
     <PackageReference Include="DotSpatial.Symbology" Version="4.0.*" />
     <PackageReference Include="DotSpatial.Symbology.Forms" Version="4.0.*" />
-    <!-- Do NOT include Harlow on net7 -->
+
+    <PackageReference Include="NetTopologySuite" Version="2.6.0" />
+    <PackageReference Include="NetTopologySuite.Features" Version="2.2.0" />
+
+    <!-- Optional helper -->
+    <PackageReference Include="DotSpatial.NTSExtension" Version="4.0.656" />
+
+    <!-- Needed by GeoJSON importers -->
+    <PackageReference Include="Newtonsoft.Json" Version="13.*" />
   </ItemGroup>
 
 
+  <!-- Explicit Compile items to avoid duplicates across SDK defaults -->
   <ItemGroup>
     <Compile Include="Converters\BuildJsonAttributes.cs" />
     <Compile Include="Converters\ReProjectCoordinates.cs" />
@@ -102,40 +222,35 @@
     <Compile Include="Exporters\PolylineSHP.cs" />
     <Compile Include="Exporters\PointSHP.cs" />
     <Compile Include="Importers\ReadDotShp.cs" />
-    <Compile Include="Importers\ReadShp.cs" />
     <Compile Include="Exporters\PointESRI.cs" />
     <Compile Include="Exporters\PolygonESRI.cs" />
     <Compile Include="Importers\ReadESRIJson.cs" />
     <Compile Include="Exporters\PolyLineESRI.cs" />
     <Compile Include="BearGISInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-
-
-  <!-- Temporarily exclude files that rely on DotSpatial.Topology from net7 while migrating to NTS -->
-  <ItemGroup Condition="'$(TargetFramework)'=='net7.0-windows'">
-    <Compile Remove="Exporters\PointSHP.cs" />
-    <Compile Remove="Exporters\PolylineSHP.cs" />
-    <Compile Remove="Exporters\PolygonSHP.cs" />
-    <Compile Remove="Importers\ReadDotShp.cs" />
-    <Compile Remove="Importers\ReadShp.cs" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='net48'">
-    <None Include="app.config" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <Compile Update="Properties\Resources.Designer.cs">
+    <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <!-- Resources -->
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!-- Exclude ReadShp.cs on net7 since Harlow isn't available -->
+  <ItemGroup Condition="'$(TargetFramework)'=='net7.0-windows'">
+    <Compile Remove="Importers\ReadShp.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net48'">
+    <Compile Include="Importers\ReadShp.cs" />
+    <None Include="app.config" />
   </ItemGroup>
 
   <ItemGroup>
