@@ -31,7 +31,7 @@
 
 <PropertyGroup>
   <!-- Destination: a dedicated subfolder keeps things tidy -->
-  <GrasshopperLibrariesDir>$(APPDATA)\Grasshopper\Libraries\BearGIS\BearGIS</GrasshopperLibrariesDir>
+  <GrasshopperLibrariesDir>$(APPDATA)\Grasshopper\Libraries\BearGIS\</GrasshopperLibrariesDir>
 </PropertyGroup>
 
 <!-- Copy for net7.0-windows (Rhino 8) -->

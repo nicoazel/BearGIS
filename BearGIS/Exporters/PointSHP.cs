@@ -12,16 +12,11 @@ using Rhino.Geometry;
 using Rhino.DocObjects;
 using Rhino.Collections;
 
-using DotSpatial;
 using DotSpatial.Projections;
-using DotSpatial.Positioning;
-using DotSpatial.Controls;
-using DotSpatial.Controls.Docking;
-using DotSpatial.Controls.Header;
 using DotSpatial.Data;
-using DotSpatial.Symbology;
-using DotSpatial.Topology;
 using System.Data;
+using NetTopologySuite.Geometries; // NTS geometries are used in DotSpatial 3/4
+using System.Globalization;
 
 namespace BearGIS
 {
@@ -43,12 +38,12 @@ namespace BearGIS
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             // You can often supply default values when creating parameters.
-            pManager.AddPointParameter("pointTree", "ptTree", "Polylines organized in a tree", GH_ParamAccess.tree);
-            pManager.AddTextParameter("fields", "f", "list of Fields for each geometry. This should not be a datatree but a simple list. To specify type use .net built in types eg System.Double, System.String, System.Boolean", GH_ParamAccess.list);
-            pManager.AddGenericParameter("attributes", "attr", "attributes for each geometry. this should be a dataTree matching the linePoints input, and fields indicies", GH_ParamAccess.tree);
-            pManager.AddTextParameter(".prj File Path", "prj", "The prj file for setting the spatial projection system", GH_ParamAccess.item);
-            pManager.AddTextParameter("filePath", "fp", "File Path for new geojson file, sugestion: use '.json'", GH_ParamAccess.item);
-            pManager.AddBooleanParameter("writeFile", "w", "set to true to write to file", GH_ParamAccess.item);
+            pManager.AddPointParameter("pointTree", "ptTree", "Points organized in a tree (one branch = one feature)", GH_ParamAccess.tree);
+            pManager.AddTextParameter("fields", "f", "Field specs: name or name;System.Type (Supported types: System.String, System.Int32, System.Int64, System.Double, System.Single, System.Decimal, System.Boolean, System.DateTime)", GH_ParamAccess.list);
+            pManager.AddGenericParameter("attributes", "attr", "Attributes datatree (branches align with pointTree; item order aligns with fields)", GH_ParamAccess.tree);
+            pManager.AddTextParameter(".prj File Path", "prj", "Projection .prj file path (optional)", GH_ParamAccess.item);
+            pManager.AddTextParameter("filePath", "fp", "Output shapefile path (.shp)", GH_ParamAccess.item);
+            pManager.AddBooleanParameter("writeFile", "w", "Set true to write file", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -56,7 +51,7 @@ namespace BearGIS
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("Message", "msg", "comments of attempt to export shp", GH_ParamAccess.item);
+            pManager.AddTextParameter("Message", "msg", "Export status / warnings", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -82,83 +77,136 @@ namespace BearGIS
             if (!DA.GetData(3, ref prj)) return;
 
 
+            string message = string.Empty;
+
             //create new feature set to add data to
-            //FeatureSet fs = new FeatureSet(FeatureType.Polygon);
-            //FeatureSet fs = new FeatureSet(FeatureType.Point);
             FeatureSet fs = new FeatureSet(FeatureType.MultiPoint);
 
 
-            if (prj != null)
+            if (!string.IsNullOrWhiteSpace(prj))
             {
-                //load projection file
-                string cur_proj = System.IO.File.ReadAllText(@prj);
+                try
+                {
+                    //load projection file
+                    string cur_proj = System.IO.File.ReadAllText(@prj);
 
-                ///create Projection system
-                ProjectionInfo targetProjection = new ProjectionInfo();
-                targetProjection.ParseEsriString(cur_proj);
-                fs.Projection = targetProjection;
+                    ///create Projection system
+                    ProjectionInfo targetProjection = new ProjectionInfo();
+                    targetProjection.ParseEsriString(cur_proj);
+                    fs.Projection = targetProjection;
+                }
+                catch (Exception ex)
+                {
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Failed to read .prj: " + ex.Message);
+                }
             }
 
             if (writeFile)
             {
-
-                // Add fields to the feature sets attribute table 
-                foreach (string field in fields)
+                try
                 {
-                    //check for type
-                    string[] splitField = field.Split(';');
-                    //if field type provided, specify it
-                    if (splitField.Length == 2)
+                    // Add fields to the feature sets attribute table 
+                    foreach (string field in fields)
                     {
+                        //check for type
+                        string[] splitField = field.Split(';');
+                        //if field type provided, specify it
+                        if (splitField.Length == 2)
+                        {
 
-                        fs.DataTable.Columns.Add(new DataColumn(splitField[0], Type.GetType(splitField[1])));
+                            fs.DataTable.Columns.Add(new DataColumn(splitField[0], Type.GetType(splitField[1])));
+                        }
+                        else
+                        {
+                            //otherwise jsut use a string
+                            fs.DataTable.Columns.Add(new DataColumn(field, typeof(string)));
+                        }
+
                     }
-                    else
+
+                    int featureCount = 0;
+                    // for every branch  (ie feature)
+                    foreach (GH_Path path in inputPointTree.Paths)
                     {
-                        //otherwise jsut use a string
-                        fs.DataTable.Columns.Add(new DataColumn(field, typeof(string)));
-                    }
+                        //set branch
+                        IList branch = inputPointTree.get_Branch(path);
+                        if (branch == null || branch.Count == 0) continue;
 
+                        // create a feature  geometry 
+                        var coords = new List<NetTopologySuite.Geometries.Coordinate>();
+
+                        //add all pt coordinates to the vertices list
+                        foreach (GH_Point pt in branch)
+                        {
+                            Point3d rhinoPoint = new Point3d();
+                            GH_Convert.ToPoint3d(pt, ref rhinoPoint, 0);
+                            coords.Add(new NetTopologySuite.Geometries.Coordinate(rhinoPoint.X, rhinoPoint.Y));
+                        }
+                        // Convert Coordinates to NTS MultiPoint geometry
+                        var geom = NetTopologySuite.Geometries.GeometryFactory.Default.CreateMultiPointFromCoords(coords.ToArray());
+
+                        //convert geom to a feature
+                        IFeature feature = fs.AddFeature(geom);
+                        //begin editing to add feature attributes
+                        feature.DataRow.BeginEdit();
+                        //get this features attributes by its path
+                        IList<string> featrueAttributes = attributes.get_Branch(path) as IList<string>;
+                        int thisIndex = 0;
+                        //add each attribute for the pt's path
+                        foreach (var thisAttribute in attributes.get_Branch(path))
+                        {
+                            string thisField = fields[thisIndex].Split(';')[0];
+                            Type targetType = typeof(string);
+                            //try to get target type from field specification
+                            if (fields[thisIndex].Split(';').Length == 2)
+                                targetType = Type.GetType(fields[thisIndex].Split(';')[1]);
+                            //convert and assign value
+                            feature.DataRow[thisField] = CoerceAttribute(thisAttribute, targetType, thisField, path);
+                            thisIndex++;
+                        }
+                        //finish attribute additions
+                        feature.DataRow.EndEdit();
+                        featureCount++;
+                    }//end of itterating through branches of pt tree
+                    fs.SaveAs(filePath, true);
+                    message = $"Wrote {featureCount} point features.";
                 }
-                // for every branch  (ie feature)
-                foreach (GH_Path path in inputPointTree.Paths)
+                catch (Exception ex)
                 {
-                    //set branch
-                    IList branch = inputPointTree.get_Branch(path);
+                    message = "Export failed: " + ex.Message;
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, message);
+                }
+            }
+            else
+            {
+                message = "Set writeFile to true to export.";
+            }
 
-                    // create a feature  geometry 
-                    List<Coordinate> vertices = new List<Coordinate>();
+            DA.SetData(0, message);
+        }
 
-                    //add all pt coordinates to the vertices list
-                    foreach (GH_Point pt in branch)
-                    {
-                        Point3d rhinoPoint = new Point3d();
-                        GH_Convert.ToPoint3d(pt, ref rhinoPoint, 0);
-                        vertices.Add(new Coordinate(rhinoPoint.X, rhinoPoint.Y));
-                    }
-                    //Convert Coordinates to dot spatial point or multipoint geometry
-                    //DotSpatial.Topology.Point geom = new DotSpatial.Topology.Point(vertices);
-                    DotSpatial.Topology.MultiPoint geom = new DotSpatial.Topology.MultiPoint(vertices);
-
-                    //convert geom to a feature
-                    IFeature feature = fs.AddFeature(geom);
-                    //begin editing to add feature attributes
-                    feature.DataRow.BeginEdit();
-                    //get this features attributes by its path
-                    IList<string> featrueAttributes = attributes.get_Branch(path) as IList<string>;
-                    int thisIndex = 0;
-                    //add each attribute for the pt's path
-                    foreach (var thisAttribute in attributes.get_Branch(path))
-                    {
-                        string thisField = fields[thisIndex].Split(';')[0];
-                        feature.DataRow[thisField] = thisAttribute.ToString(); //currently everything is a string....                                                  
-                        thisIndex++;
-                    }
-                    //finish attribute additions
-                    feature.DataRow.EndEdit();
-                }//end of itterating through branches of pt tree
-                fs.SaveAs(filePath, true);
-
+        private object CoerceAttribute(object raw, Type targetType, string fieldName, GH_Path featurePath)
+        {
+            if (raw == null) return DBNull.Value;
+            string s = raw.ToString();
+            if (string.IsNullOrWhiteSpace(s)) return DBNull.Value;
+            try
+            {
+                if (targetType == typeof(string)) return s;
+                if (targetType == typeof(int) || targetType == typeof(Int32)) return int.Parse(s, CultureInfo.InvariantCulture);
+                if (targetType == typeof(long) || targetType == typeof(Int64)) return long.Parse(s, CultureInfo.InvariantCulture);
+                if (targetType == typeof(double) || targetType == typeof(Double)) return double.Parse(s, CultureInfo.InvariantCulture);
+                if (targetType == typeof(float) || targetType == typeof(Single)) return float.Parse(s, CultureInfo.InvariantCulture);
+                if (targetType == typeof(decimal)) return decimal.Parse(s, CultureInfo.InvariantCulture);
+                if (targetType == typeof(bool) || targetType == typeof(Boolean)) return bool.Parse(s);
+                if (targetType == typeof(DateTime)) return DateTime.Parse(s, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal);
+                // Fallback
+                return Convert.ChangeType(s, targetType, CultureInfo.InvariantCulture);
+            }
+            catch (Exception ex)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, $"Field '{fieldName}' (feature {featurePath}) value '{s}' failed to convert to {targetType.Name}: {ex.Message}. Set to NULL.");
+                return DBNull.Value;
             }
         }
 
