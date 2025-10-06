@@ -1,0 +1,19 @@
+name: BearGIS
+version: 2.1.0
+summary: Grasshopper plugin for reading and writing GIS data
+description: |
+  BearGIS is a Grasshopper plugin for Rhino that provides components to read and write GIS data formats.
+  Includes support via DotSpatial and NetTopologySuite.
+authors:
+  - Nicolas Azel
+url: https://nicoazel.github.io/BearGIS/
+keywords:
+  - grasshopper
+  - gis
+  - dotspatial
+  - nettopologysuite
+license: MIT
+
+distributions:
+  - app: rh8
+    platform: win
