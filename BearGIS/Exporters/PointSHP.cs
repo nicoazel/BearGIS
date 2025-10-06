@@ -39,7 +39,7 @@ namespace BearGIS
         {
             // You can often supply default values when creating parameters.
             pManager.AddPointParameter("pointTree", "ptTree", "Points organized in a tree (one branch = one feature)", GH_ParamAccess.tree);
-            pManager.AddTextParameter("fields", "f", "Field specs: name or name;System.Type (Supported types: System.String, System.Int32, System.Int64, System.Double, System.Single, System.Decimal, System.Boolean, System.DateTime)", GH_ParamAccess.list);
+            pManager.AddTextParameter("fields", "f", "list of Fields for each geometry. This should not be a datatree but a simple list. To specify type use .net built in types eg Field specs: name or name;System.Type (Supported types: System.String, System.Int32, System.Int64, System.Double, System.Single, System.Decimal, System.Boolean, System.DateTime)", GH_ParamAccess.list);
             pManager.AddGenericParameter("attributes", "attr", "Attributes datatree (branches align with pointTree; item order aligns with fields)", GH_ParamAccess.tree);
             pManager.AddTextParameter(".prj File Path", "prj", "Projection .prj file path (optional)", GH_ParamAccess.item);
             pManager.AddTextParameter("filePath", "fp", "Output shapefile path (.shp)", GH_ParamAccess.item);
