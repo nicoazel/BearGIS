@@ -58,7 +58,7 @@ namespace BearGIS
             JArray jsonObj = null;
             if (readFile)
             {
-
+#if NETFRAMEWORK
                 //file = "filePath
                 Harlow.ShapeFileReader harlowShpReader = new Harlow.ShapeFileReader(filePath);
                 harlowShpReader.LoadFile();
@@ -124,9 +124,9 @@ namespace BearGIS
                     featureFields.Add(thisField);
                 }
                 DA.SetDataList(0, featureFields);
-            
-
-
+#else
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "ReadShp (Harlow) is not available on .NET 7. Use ReadDotShp instead.");
+#endif
             }//end if read file
 
         }
