@@ -46,19 +46,21 @@
     <ItemGroup>
       <!-- Exclude Rhino/GH assemblies from deployment -->
       <LocalDeps Include="@(ReferenceCopyLocalPaths)"
-                 Exclude="**\RhinoCommon.dll;**\Grasshopper.dll;**\GH_IO.dll" />
+                 Exclude="**\Rhino*.dll;**\Grasshopper.dll;**\GH_IO.dll;**\opennurbs.dll;**\libRhino*.dll" />
       <LocalDlls Include="$(OutputPath)*.dll"
-                 Exclude="$(OutputPath)$(AssemblyName).dll;$(OutputPath)RhinoCommon.dll;$(OutputPath)Grasshopper.dll;$(OutputPath)GH_IO.dll" />
+                 Exclude="$(OutputPath)$(AssemblyName).dll;$(OutputPath)Rhino*.dll;$(OutputPath)Grasshopper.dll;$(OutputPath)GH_IO.dll;$(OutputPath)opennurbs.dll;$(OutputPath)libRhino*.dll" />
       <SatDeps Include="@(ReferenceSatellitePaths)" />
-      <NativeDeps Include="@(NativeCopyLocalItems)" />
-      <RuntimeManifests Include="$(OutputPath)*.runtimeconfig.json;$(OutputPath)*.deps.json" />
+      <!-- Filter native copy-local items to avoid Rhino natives -->
+      <NativeDeps Include="@(NativeCopyLocalItems)"
+                  Exclude="**\opennurbs.dll;**\Rhino*.dll;**\libRhino*.dll" />
+      <!-- Do not ship runtime manifests with a Grasshopper plugin -->
       <Pdbs Include="$(OutputPath)*.pdb" />
     </ItemGroup>
 
     <Copy SourceFiles="$(GhaOut)" DestinationFiles="$(GhaDest)"
           SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" />
 
-    <Copy SourceFiles="@(LocalDeps);@(LocalDlls);@(SatDeps);@(NativeDeps);@(RuntimeManifests)"
+    <Copy SourceFiles="@(LocalDeps);@(LocalDlls);@(SatDeps);@(NativeDeps)"
           DestinationFolder="$(GhaDestDir)\"
           SkipUnchangedFiles="true"
           OverwriteReadOnlyFiles="true" />
@@ -157,7 +159,10 @@
 
   <!-- net7: Rhino 8 via NuGet for RhinoCommon; reference Grasshopper from install; DotSpatial 4.x -->
   <ItemGroup Condition="'$(TargetFramework)'=='net7.0-windows'">
-    <PackageReference Include="RhinoCommon" Version="8.*" />
+    <!-- Compile against R8; do not copy runtime/native -->
+    <PackageReference Include="RhinoCommon" Version="8.*">
+      <ExcludeAssets>runtime;native</ExcludeAssets>
+    </PackageReference>
     <Reference Include="Grasshopper">
       <HintPath>C:\Program Files\Rhino 8\Plug-ins\Grasshopper\Grasshopper.dll</HintPath>
       <Private>false</Private>
