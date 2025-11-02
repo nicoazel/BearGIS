@@ -101,7 +101,8 @@
 
     <Copy SourceFiles="@(LocalDeps);@(LocalDlls);@(SatDeps);@(NativeDeps)"
           DestinationFolder="$(GhaDestDir)\"
-          SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" />
+          SkipUnchangedFiles="true"
+          OverwriteReadOnlyFiles="true" />
 
     <Copy SourceFiles="@(Pdbs)" DestinationFolder="$(GhaDestDir)\"
           SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Condition=" '@(Pdbs)' != '' " />
@@ -129,7 +130,7 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
-  <!-- net48: Rhino 7 via NuGet packages; DotSpatial 3.x; keep Harlow for now -->
+  <!-- net48: Rhino 7 via NuGet packages; DotSpatial 3.x -->
   <ItemGroup Condition="'$(TargetFramework)'=='net48'">
     <!-- Compile against R7; do not copy runtime -->
     <PackageReference Include="RhinoCommon" Version="7.*">
@@ -152,7 +153,6 @@
     <PackageReference Include="DotSpatial.Symbology.Forms" Version="3.0.1" />
 
     <PackageReference Include="Newtonsoft.Json" Version="13.*" />
-    <PackageReference Include="Harlow" Version="0.6.0" />
     <PackageReference Include="NetTopologySuite" Version="2.6.0" />
     <PackageReference Include="NetTopologySuite.Features" Version="2.2.0" />
   </ItemGroup>
@@ -224,13 +224,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <!-- Exclude ReadShp.cs on net7 since Harlow isn't available -->
-  <ItemGroup Condition="'$(TargetFramework)'=='net7.0-windows'">
-    <Compile Remove="Importers\ReadShp.cs" />
-  </ItemGroup>
-
+  <!-- net48: keep app.config, drop Harlow ReadShp.cs -->
   <ItemGroup Condition="'$(TargetFramework)'=='net48'">
-    <Compile Include="Importers\ReadShp.cs" />
     <None Include="app.config" />
   </ItemGroup>
 
