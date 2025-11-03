@@ -1,5 +1,5 @@
 name: BearGIS
-version: 2.1.0
+version: 2.1.1
 summary: Grasshopper plugin for reading and writing GIS data
 description: |
   BearGIS is a Grasshopper plugin for Rhino that provides components to read and write GIS data formats.

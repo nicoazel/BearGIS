@@ -12,7 +12,7 @@ namespace BearGIS
     public class ReadDotShp : GH_Component
     {
         public ReadDotShp()
-          : base("ReadDotShp", "DotSHP-R",
+          : base("ReadShp", "SHP-R",
               "Reads SHP files with DotSpatial + NetTopologySuite and outputs attributes + vertex trees similar to other BearGIS importers.",
               "BearGIS", "Import")
         { }

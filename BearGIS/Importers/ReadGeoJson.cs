@@ -140,56 +140,50 @@ namespace BearGIS
                         pathIndex = 0;
                     }//end Multi-point
 
+                    else if ((string)geometry_type == "LineString")
+                    {
+                        // LineString: coordinates is an array of positions (one path)
+                        List<GH_Point> thisPathPoints = new List<GH_Point>();
+                        foreach (JArray coord in (JArray)feature["geometry"]["coordinates"])
+                        {
+                            Point3d thisPoint = new Point3d((double)(JToken)coord[0], (double)(JToken)coord[1], 0);
+                            GH_Point thisGhPoint = new GH_Point(thisPoint);
+                            thisPathPoints.Add(thisGhPoint);
+                        }
+                        GH_Path thisPath = new GH_Path(featureIndex, pathIndex);
+                        featureGeometry.AppendRange(thisPathPoints, thisPath);
+                        featureIndex++;
+                    }//end LineString
+
                     else if ((string)geometry_type == "MultiLineString")
                     {
-                        //for each line geometry for this feature
-                        
-                        for (int pIndex = 0; pIndex < ((Newtonsoft.Json.Linq.JArray)feature["geometry"]["coordinates"]).Count; pathIndex++)
+                        // MultiLineString: coordinates is an array of LineString coordinate arrays
+                        for (int pIndex = 0; pIndex < ((JArray)feature["geometry"]["coordinates"]).Count; pIndex++)
                         {
                             List<GH_Point> thisPathPoints = new List<GH_Point>();
-                            //for each coordiant in this line geometry
+                            // For each coordinate in this line geometry
                             foreach (JArray coord in (JArray)feature["geometry"]["coordinates"][pIndex])
                             {
                                 Point3d thisPoint = new Point3d((double)(JToken)coord[0], (double)(JToken)coord[1], 0);
                                 GH_Point thisGhPoint = new GH_Point(thisPoint);
                                 thisPathPoints.Add(thisGhPoint);
                             }
-                            //add line geometry to personal path
+                            // Add line geometry to its own path
                             GH_Path thisPath = new GH_Path(featureIndex, pIndex);
                             featureGeometry.AppendRange(thisPathPoints, thisPath);
-                            pathIndex++;
                         }
                         featureIndex++;
-                        pathIndex = 0;
                     } //end MultiLineString
-
-                    else if ((string)geometry_type == "LineString")
-                    {
-                        foreach (JArray coord in (JArray)feature["geometry"]["coordinates"])
-                        {
-                            List<GH_Point> thisPathPoints = new List<GH_Point>();
-
-
-                            Point3d thisPoint = new Point3d((double)(JToken)coord[0], (double)(JToken)coord[1], 0);
-                            GH_Point thisGhPoint = new GH_Point(thisPoint);
-                            thisPathPoints.Add(thisGhPoint);
-                            GH_Path thisPath = new GH_Path(featureIndex, pathIndex);
-                            featureGeometry.AppendRange(thisPathPoints, thisPath);
-                            pathIndex++;
-                        }
-
-                        featureIndex++;
-                    }//end polyline
-
 
                     else if ((string)geometry_type == "Polygon")
                     {
-                        foreach (JArray pathsArray in (JArray)feature["geometry"]["coordinates"])
+                        // Polygon: coordinates is an array of linear ring coordinate arrays
+                        foreach (JArray ring in (JArray)feature["geometry"]["coordinates"])
                         {
                             List<GH_Point> thisPathPoints = new List<GH_Point>();
-                            foreach (JArray path in pathsArray)
+                            foreach (JArray coord in ring)
                             {
-                                Point3d thisPoint = new Point3d((double)path[0], (double)path[1], 0);
+                                Point3d thisPoint = new Point3d((double)coord[0], (double)coord[1], 0);
                                 GH_Point thisGhPoint = new GH_Point(thisPoint);
                                 thisPathPoints.Add(thisGhPoint);
                             }
@@ -197,32 +191,34 @@ namespace BearGIS
                             featureGeometry.AppendRange(thisPathPoints, thisPath);
                             pathIndex++;
                         }
-
                         featureIndex++;
                     }//end polygon
 
                     else if ((string)geometry_type == "MultiPolygon")
                     {
-                        //for each line geometry for this feature
-
-                        for (int pIndex = 0; pIndex < ((Newtonsoft.Json.Linq.JArray)feature["geometry"]["coordinates"]).Count; pathIndex++)
+                        // MultiPolygon: coordinates is an array of Polygon coordinate arrays
+                        // Each polygon is an array of linear rings (first is outer, rest are holes)
+                        for (int polyIndex = 0; polyIndex < ((JArray)feature["geometry"]["coordinates"]).Count; polyIndex++)
                         {
-                            List<GH_Point> thisPathPoints = new List<GH_Point>();
-                            //for each coordiant in this line geometry
-                            foreach (JArray coord in (JArray)feature["geometry"]["coordinates"][pIndex])
+                            // Each polygon can have multiple rings (outer + holes)
+                            JArray polygonRings = (JArray)feature["geometry"]["coordinates"][polyIndex];
+                            foreach (JArray ring in polygonRings)
                             {
-                                Point3d thisPoint = new Point3d((double)(JToken)coord[0], (double)(JToken)coord[1], 0);
-                                GH_Point thisGhPoint = new GH_Point(thisPoint);
-                                thisPathPoints.Add(thisGhPoint);
+                                List<GH_Point> thisPathPoints = new List<GH_Point>();
+                                foreach (JArray coord in ring)
+                                {
+                                    Point3d thisPoint = new Point3d((double)coord[0], (double)coord[1], 0);
+                                    GH_Point thisGhPoint = new GH_Point(thisPoint);
+                                    thisPathPoints.Add(thisGhPoint);
+                                }
+                                // Add ring geometry to its own path
+                                GH_Path thisPath = new GH_Path(featureIndex, pathIndex);
+                                featureGeometry.AppendRange(thisPathPoints, thisPath);
+                                pathIndex++;
                             }
-                            //add line geometry to personal path
-                            GH_Path thisPath = new GH_Path(featureIndex, pIndex);
-                            featureGeometry.AppendRange(thisPathPoints, thisPath);
-                            pathIndex++;
                         }
                         featureIndex++;
-                        pathIndex = 0;
-                    } //end MultiLineString
+                    } //end MultiPolygon
 
                 }
                 DA.SetDataTree(2, attributes);

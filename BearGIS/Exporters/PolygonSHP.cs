@@ -27,7 +27,7 @@ namespace BearGIS
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddCurveParameter("polygonTree", "pgTree", "Polygons organized in a tree (one branch = one feature; first ring outer, subsequent rings holes)", GH_ParamAccess.tree);
-            pManager.AddTextParameter("list of Fields for each geometry. This should not be a datatree but a simple list. To specify type use .net built in types eg fields", "f", "Field specs: name or name;System.Type (Supported: System.String, System.Int32, System.Int64, System.Double, System.Single, System.Decimal, System.Boolean, System.DateTime)", GH_ParamAccess.list);
+            pManager.AddTextParameter("fields", "f", "list of Fields for each geometry. This should not be a datatree but a simple list. To specify type use .net built in types eg fields. Field specs: name or name;System.Type (Supported: System.String, System.Int32, System.Int64, System.Double, System.Single, System.Decimal, System.Boolean, System.DateTime)", GH_ParamAccess.list);
             pManager.AddGenericParameter("attributes", "attr", "Attributes datatree (branches align with polygonTree; order aligns with fields)", GH_ParamAccess.tree);
             pManager.AddTextParameter(".prj File Path", "prj", ".prj projection file path (optional)", GH_ParamAccess.item);
             pManager.AddTextParameter("filePath", "fp", "Output shapefile path (.shp)", GH_ParamAccess.item);
